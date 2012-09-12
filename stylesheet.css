@@ -1,0 +1,351 @@
+			body {
+			color: white;
+			background-color: #000000 
+			}
+			
+			.form_btn {
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 60px;
+			color: #164BA0;
+			background-color: #FFFFFF;
+			border: 1px solid #41BDE8;
+			}
+			
+			.form_btn_0{
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 60px;
+			color: #164BA0;
+			background-color: #FFFFFF;
+			border: 1px solid #41BDE8;
+			width: 175px;
+			}
+			
+			/* BOTAO DE PESQUISA DE VIATURAS */
+			.pesquisa_btn{
+			height: 100px;
+			width: 100px;
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 20px;
+			color: #164BA0;
+			background-color: #FFFFFF;
+			border: 1px solid #41BDE8;
+			}
+			
+			.input_login {
+			text-align: center;
+			font-size: 70px;
+			}
+			
+			.option_categorias{
+			font-size: 30px;
+			}
+			
+			.option_minutos{
+			font-size: 30px;
+			margin-top:0px;
+			}
+		
+			.a_1 {
+			color: #ffffff;
+			}
+			
+			.td_menu1 {
+			width: 200px;
+			text-align: center;
+			border-width: 0px;
+			padding: 1px;
+			border-style: inset;
+			border-color: gray;
+			background-color: black;
+			-moz-border-radius: 0px 0px 0px 0px;
+			}
+			
+			.td_menu2 { /* background principal*/ 
+			width:640px;
+			/*background-image: url('fundo_main1.png');*/
+			background-color: #ffffff;
+			text-align: center;
+			vertical-align: top;
+			border-radius:20px;
+			border-style: solid;
+			border-width: 2px;
+			border-color: #3366ff;
+			}
+			
+			.tb_menu_inicial {
+				width:825px; 
+				height:600px;
+				border-width: 0px;
+				border-spacing: 1px;
+				border-style: outset;
+				border-color: white;
+				border-collapse: separate;
+				background-color: black;
+			}
+			
+			/*PESQUISA DE VIATURAS */
+			.tb_pesquisa_viaturas {
+				width: 600px;
+				height: 600px;
+			}
+			
+			#hor-minimalist-b
+			{
+				font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+				font-size: 10px;
+				background: #FFF;
+				margin: 15px;
+				width: 500px;
+				border-collapse: collapse;
+				text-align: left;
+			}
+			#hor-minimalist-b th
+			{
+				font-size: 12px;
+				font-weight: normal;
+				color: #039;
+				padding: 10px 8px;
+				border-bottom: 2px solid #6678b1;
+			}
+			#hor-minimalist-b td
+			{
+				border-bottom: 1px solid #ccc;
+				color: #669;
+				padding: 6px 8px;
+			}
+			#hor-minimalist-b tbody tr:hover td
+			{
+				color: #009;
+			}
+
+			
+			.tb_header {
+			width:100%;
+			}
+			
+			
+			.td_header {
+			width:33%;
+			}
+			
+			/*TABELA PARA A MATRICULA*/
+			.tb_viatura {
+			width: 652px;
+			height: 138px;
+			text-align: right;
+			}
+			
+			/*MATRICULA*/
+			.tr_viatura {
+			background-image: url('matricula.png');
+			vertical-allign: middle;
+			}
+			
+			/*ANO E MES DA MATRICULA*/
+			.td_ano_mes {
+			text-align: center;
+			width:60px;
+			}
+			
+			/*TEXTO NA MATRICULA*/
+			.p_matricula {
+			font-size:120px;
+			color: black;
+			text-align: center;
+			}
+			
+			/*FONT ANO E MES*/
+			.p_ano_mes {
+			font-size: 25px;
+			color: black;
+			}
+			
+			/*MOTD SPLASH*/
+			.p_motd {
+			font-size: 20px;
+			color: blue;
+			}
+			
+			/*P ABASTECER*/
+			.p_abast{
+			font-size: 25px;
+			color: black;
+			}
+			
+			.p_group_box{
+			font-size: 20px;
+			color:black;
+			}
+			
+			/*TABELA REGISTO HORAS E COMBUSTIVEL*/
+			.t_registo_horas{
+			width:400px;
+			text-align: center;
+			}
+			
+			/*FONT HORAS*/
+			.font_horas{
+				font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+				color: black;
+				font-size: 30px;
+			}
+			
+			/*FONT HORAS 2*/
+			.font_horas2{
+				font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+				color: black;
+				font-size: 18px;
+			}
+			
+			/*FONT VERSAO FOOTER */
+			.font_sobre{
+				font-weight:bold;
+				font-size:12px;
+			}
+			
+			/* SELECCIONAR CATEGORIAS DAS AVARIAS*/
+			.option_categoria_avaria{
+				color:	black;
+				font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+				font-size: 40px;
+			}
+			
+			/*FONT TEXTO DA JANELA POPUP */
+			.popup_texto{
+				color: #DDF7F6;
+				font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+				font-size: 35px;
+			}
+			
+			.data
+			{
+				font-size: 35px;
+				text-align: center;
+				color: #ffffff;
+				background-color: #000000;
+				border-style: solid;
+				border-color: #3366ff;
+				border-width: 1px;
+				width: 200px;
+				border-radius: 5px;
+			}
+			
+			.but_data
+			{
+				width: 200px;
+				height: 90px;
+				font-size: 30px;
+			}
+			
+			
+			.but_setas
+			{
+				width: 100px;
+				height: 50px;
+			}
+			
+			.div_horas
+			{
+				border-color: #ffffff;
+				color: #ffffff;
+				border-style: solid;
+				border-width: 2px;
+				border-radius: 20px;
+				background-color: #707070;
+				width: 570px;
+			}
+			
+			.img_horas 
+			{
+				border-radius: 10px;
+			}
+			
+			.paginas /* texto de seleccao de paginas nas viaturas */
+			{
+				color: #000000;
+				font-size:25px;
+			}
+			
+			div.ui-datepicker{ /* tamanho do calendario */
+				font-size:30px;
+			}
+			
+			img.sel_viat /* imagens da seleccao de viaturas */
+			{
+				border-radius: 5px;
+				height: 80px;
+				width: 120px;
+			}
+			
+			select.local /* combo box do local de registo */
+			{
+				font-size:35px;
+			}
+			
+			button.acessorios /* butao dos acessorios */
+			{
+				width: 150px;
+				height: 70px;
+			}
+			
+			font.txt_func /* nome do funcionario */
+			{
+				font-size: 12px;  
+			}
+			
+			img.img_func /* imagem do funcionario */
+			{
+				width:120px;
+				height:100px;
+				border-radius: 15px;
+			}
+			
+			input.but_registo /* butao para fechar registo */
+			{
+				width: 150px;
+				height: 75px;
+			} 
+			
+			input.h_transp /* horas transporte */ 
+			{
+				width:90px;
+			}
+			
+			input.comb /* litros do combustivel */
+			{
+				width: 200px;
+			}
+			
+			input.horasv /* horas da viatura */
+			{
+				width:200px;
+			}
+			
+			input.horast /* horas de trabalho */
+			{
+				width:90px;
+			}
+			
+			#sel_acessorio /* combo para os acessorios */
+			{
+				font-size: 28px;
+				color: #404040;
+			}
+			
+			table.tab_det_acess /* tabela para os detalhes do acessorio*/
+			{
+				width: 580px;
+				
+			}
+			
+			table.tab_det_acess td /* colunas dos detalhes dos acessorios */
+			{
+				text-align: center;
+				font-size:20px;
+			}
+			
+			#inp_acesso /* input dos detalhes dos acessorios */
+			{
+				text-align: center;
+				font-size: 30px;
+			}

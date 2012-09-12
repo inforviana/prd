@@ -1,0 +1,4 @@
+<?php
+//verificar se há registo de horas
+
+?>

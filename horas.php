@@ -1,0 +1,434 @@
+<?php
+$local=$_POST['local'];
+$data=$_POST['data'];
+$horas=$_POST['horas']; //variaveis globais
+$minutos=$_POST['minutos'];
+$horas_transporte=$_POST['horas_transporte'];
+$minutos_transporte=$_POST['minutos_transporte'];
+$litros=$_POST['litros'];
+$kms=$_POST['horasv'];
+$avarias=$_POST['avarias'];
+$desc=$_POST['desc'];
+$viat=$_GET['viatura'];
+$ajudante=$_POST['ajudante'];
+$tipo_serv=$_GET['serv']; //sem viatura
+$viatura_transporte=explode(' | ',$_POST['viat_t']); //separar o text o que vem do tranporte
+
+//verifica viatura de transporte (84 - sem viatura)
+if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
+
+	if(!isset($viat)){ //VERIFICA SE A VIATURA FOI PASSADA COMO VARIAVEL \ SERVIÇO EXTERNO \ SEM SERVIÇO
+		$no_viat=1;
+	}
+
+	if(!isset($horas)){ //verifica se ja tem os dados para abastecimento ou nao
+	mysql_connect($DB_HOST,$DB_USER,$DB_PASS);
+	mysql_select_db($DB_TABLE) or die ('Erro de ligação á base de dados!');
+	//obter kms actuais da viatura
+	$q_kms_actuais="select max(kms_viatura) from mov_combustivel where id_viatura=".$viat;
+	$r_kms_actuais=mysql_query($q_kms_actuais);
+	//pesquisar todas as viaturas para a popup do transporte, carrega para um array em JS
+	$q_popup_viatura="select * from viatura";
+	$r_popup_viatura=mysql_query($q_popup_viatura);
+	/* SCRIPT DO POPUP
+	echo "<script type='text/javascript'>\n";
+	echo "var viaturas = new Array();\n";
+	while ($row=mysql_fetch_array($r_popup_viatura)){
+		echo "viaturas[viaturas.length]={id:'".$row['id_viatura']."',marca:'".$row['desc_viatura']."'}";
+	}
+	echo "</script>";
+	*/
+	//detalhes da viatura
+	$q_abviat="select * from viaturas where id_viatura=".$viat;
+	$r_abviat=mysql_query($q_abviat);
+	?>
+	<center>
+	<?php
+		if(isset($tipo_serv)){
+			echo "<h1>".$tipo_serv."</h1>";
+			$q_serv="select * from viaturas where desc_viatura='".$tipo_serv."'"; /* query para seleccionar a viatura se for sem servico DEPRECATED*/
+			$r_serv=mysql_query($q_serv);
+		}
+		if($no_viat!=1){
+	?>
+	<table id="hor-minimalist-b" summary="motd"> <!--descrição da viatura -->
+		<thead>
+			<tr>
+				<th>DIÁRIA DE VIATURA</th>
+			</tr>
+			<!--
+			<tr>
+				<th scope="col">Imagem</th>
+				<th scope="col">Nome</th>
+				<th scope="col">Matricula</th>
+				<th scope="col">Marca</th>
+				<th scope="col">Modelo</th>
+			</tr>
+			-->
+		</thead> 
+		<tbody> 
+					<tr>
+						<td><img class="img_horas" width="200" height="133" src="imagem.php?idviatura=<?php echo mysql_result($r_abviat,0,'id_viatura')?>"></td>
+						<td> 
+							<b>Nome: </b><?php echo mysql_result($r_abviat,0,'desc_viatura')?><br>
+							<b>Matricula: </b><?php echo mysql_result($r_abviat,0,'matricula_viatura')?><br>
+							<b>Marca: </b><?php echo mysql_result($r_abviat,0,'marca_viatura')?><br>
+							<b>Modelo: </b><?php echo mysql_result($r_abviat,0,'modelo_viatura')?>
+						</td>
+						<td>
+							<b>Tipo:</b><?php 
+                                                        
+                                                                        $q_cat="select categoria from categorias_viatura where id_categoria=".mysql_result($r_abviat,0,'tipo_viatura');
+                                                                        $r_cat=mysql_query($q_cat);
+                                                                        echo mysql_result($r_cat,0,0);
+                                                                    ?><br>
+							<b>Kms Actuais:</b><?php echo mysql_result($r_kms_actuais,0,0);?>
+						</td>
+					</tr>
+					<tr>
+						<td colspan=3>
+							<?php
+								/* INICIO DO FORM */
+								echo '<form action="index.php?pagina=horas&viatura='.$viat.'" method="POST" name="horas_viat">'; 
+							?>
+							<center>
+                                                            <select class="local" name="data">
+                                                                   <?php
+                                                                                                                                        
+                                                                        for($i=0;$i<=3;$i++)
+                                                                        {
+                                                                            $dts=strtotime("-$i day",strtotime(date('Y-m-j')));
+                                                                            $dia_semana=date('N',$dts);
+                                                                            
+                                                                            switch($dia_semana)
+                                                                            {
+                                                                                case '7':
+                                                                                    $diasem='Domingo';
+                                                                                    break;
+                                                                                case '1':
+                                                                                    $diasem='Segunda';
+                                                                                    break;
+                                                                                case '2':
+                                                                                    $diasem='Terça';
+                                                                                    break;
+                                                                                case '3':
+                                                                                    $diasem='Quarta';
+                                                                                    break;
+                                                                                case '4':
+                                                                                    $diasem='Quinta';
+                                                                                    break;
+                                                                                case '5':
+                                                                                    $diasem='Sexta';
+                                                                                    break;
+                                                                                default:
+                                                                                    $diasem='Sabado';
+                                                                                    break;
+                                                                            }
+                                                                            echo '<option value="'.date('Y-m-j',$dts).'">'.$diasem.'</option>';
+                                                                        }
+                                                                   ?>
+                                                            </select>
+                                                            <!--<input class="data" type="text" value="<?php echo date('Y-m-j');?>" id="data" name="data">  DATA -->
+								<select class="local" id="div_local" name="local"> <!-- LOCAL -->
+								<?php
+									/* LOCALIZACAO DO FUNCIONARIO */ 
+									$r_locais=mysql_query("select * from locais");
+									$n_locais=mysql_num_rows($r_locais);
+									 
+									for($i=0;$i<$n_locais;$i++)
+									{
+										echo '<option value="'.mysql_result($r_locais,$i,0).'">'.mysql_result($r_locais,$i,1).'</option>';
+									}
+								?>
+								</select>
+							</center>
+						</td>
+					</tr>
+		</tbody>
+	</table>
+	 <!-- input box para as horas da viatura -->
+	<?php 
+	}
+	?>
+	<div class="div_horas">
+	<table class="t_registo_horas" border=0 width=600>   
+		<?php
+			// <tr>
+				// <font color="black"><b>HORAS/MINUTOS A REGISTAR:</b></font>
+				// <br><input style="font-size: 60px;" align="center" type="text" name="horas" maxlength="" size="2">
+
+				// <br>
+				// <font color="black"><b>DESCRIÇÃO:</b></font><br><input style="font-size: 30px;" class="keyboardInput" type="text" name="desc" maxlength="" size="35"><br>
+				// <center><br><button class="pesquisa_btn" type="submit" style="height: 100px; width: 300px">Registar Horas</button></center>
+		
+/* 		<tr>
+			<td ><font class="font_horas">Foi Ajudante:</font></td>
+			<td>
+				<select name="ajudante" class="option_minutos">
+					<option value="0" selected="selected">Não</option>
+					<option value="1">Sim</option>
+				</select></td>
+		</tr> */
+		
+		
+		if($no_viat!=1){ //COM VIATURA
+		$d_viat=mysql_result($r_abviat,0,'desc_viatura');	
+		?>
+		<tr>
+			<td valign="middle"><font class="font_horas2">Tempo Transporte:</font>
+			</td>
+			<td>
+				<!-- HORAS E MINUTOS DO TRANSPORTE -->
+			<input class="h_transp" style="font-size: 40px;text-align: center" type="text" name="horas_transporte"  value="0" onclick="this.value=''"><font class="font_horas">:</font>
+			<select style="font-size:40px" name="minutos_transporte" class="option_minutos">
+					<option selected="selected" >00</option>
+					<option>10</option>
+					<option>20</option>
+					<option>30</option>
+					<option>40</option>
+					<option>50</option>
+				</select>
+			</td>
+			<td>
+				<button type="button" id="but_transp" class="fg-button ui-state-default ui-corner-all">Viatura <br>Transporte </button>
+			</td>
+			<td>
+			 	<img id="icon_transporte" height="30" src="./img/icon_fail.png" border=0>
+			</td>
+		</tr>
+		<tr>
+			<td ><font class="font_horas2">Combustivel Utilizado:</font></td><td><input class="comb" style="font-size: 50px;text-align: right" align="center" type="text" name="litros" value="0" onclick="this.value='';"></td><td><font class="font_horas" style="text-align:left">Litros</font></td>
+		</tr>
+		<?php
+		// FIM COM VIATURA
+		}
+		?>
+		<tr>
+			<?php if($no_viat!=1){ 
+			echo '<td ><font class="font_horas2">H/Kms do Veiculo:</font>';} //COM VIATURA?>
+			</td><td><input class="horasv" style="font-size: 40px;text-align: right" type="text" name="horasv" onclick="this.value=''" value="0"></td>
+		</tr>
+		<tr>
+			<?php  
+				if($no_viat!=1){ 
+			?>
+					
+			<?php
+				}
+			?>
+			<input type="hidden" id="viat_t" name="viat_t" value=""> <!-- id da viatura de transporte-->
+			<td ><font class="font_horas2">Horas Trabalhadas:</font> <!-- horas de trabalho -->
+			</td>
+			<td>
+			<input class="horast" style="font-size: 40px;text-align: center" type="text" name="horas" >
+			<font class="font_horas">:</font>
+				<select style="font-size:40px" name="minutos" class="option_minutos">
+					<option selected="selected">00</option>
+					<option>15</option>
+					<option>30</option>
+					<option>45</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+		<?php 
+                if($no_viat!=1){ //AVARIAS COM VIATURA
+		?>
+			<br><!--
+					<select name="avarias" class="option_minutos">
+						<option selected="selected">S/Avarias</option>
+						<option>C/Avarias</option>
+					</select>
+					-->
+		<?php
+		}
+		?>
+			<td align="center" colspan="2">      <!-- BOTAO DOS ACESSORIOS -->
+				<input type="hidden"  id="id_acess" value=""> <!-- valor do id de acessorio para enviar com o form -->
+				<button type="button" id="but_acess" class="acessorios ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">Acessorio</button>
+				<button type="button" id="but_avarias" class="acessorios ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">Avarias</button>
+			</td>
+			
+			<td align="center" colspan="3">
+				<?php    //BOTAO PARA GRAVAR
+					if($no_viat==1){
+					echo "<center>";
+					echo '<br><font class="font_horas2">Descrição do serviço:</font><br><input style="font-size: 40px;text-align: center" type="text" name="desc" type="text" size="20"></text><br><br>';
+					}
+				?>
+				<input class="but_registo" type="image" src="botao_ok.png">
+				<?php
+					if($no_viat==1){echo "</center>";}
+				?>
+			</td>
+		</tr>
+	</table>
+	</div>
+	
+		<!-- CAIXA DE DIALOGO PARA SELECCIONAR O TRANSPORTE -->
+	<div title="Transporte" id="dlg_transp" class="ui-widget ui-dialog ui-widget-content ui-corner-all">
+		<?
+			echo '
+			<center>
+				<input style="text-align:center;font-size:30px" type="text" id="transporte" name="transporte" ><br><br>
+				<button type="button" id="but_fechar_trans" class="fg-button ui-state-default ui-corner-all" style="font-size:40px">OK</button>
+				<button type="button" id="but_limpar_trans" class="fg-button ui-state-default ui-corner-all" style="font-size:40px">Limpar</button>
+			</center>
+			';
+		?>
+	</div>
+	
+		<!-- CAIXA DO ACESSORIO -->
+		<div title="Acessorios" id="dlg_acess" class="ui-widget ui-dialog ui-widget-content ui-corner-all">
+			<table>
+			
+				<?php
+					$r_acess=mysql_query("SELECT acessorios_viatura.id_acessorio as id_acessorio, viaturas.desc_viatura as descricao FROM acessorios_viatura LEFT JOIN viaturas ON viaturas.id_viatura = acessorios_viatura.id_acessorio WHERE acessorios_viatura.id_viatura=".$viat." LIMIT 20");
+					$n_acess=mysql_num_rows($r_acess);
+					
+					$max_c=5;//largura das colunas
+					
+					for($i=0;$i<$n_acess;$i++) //loop
+					{
+						if($i==0) echo '<tr>';
+						if(($i)%$max_c==0) echo '</tr><tr>';  //linhas
+						?>
+						<!-- overlay gerado dinamicamente com nome do acessorio JS:CAPTY-->
+						<script type="text/javascript"> 
+							$('#<?php echo mysql_result($r_acess,$i,'id_acessorio');?>').capty({
+								animation: 'fixed'
+							});
+			
+						</script>
+                                                                                                                              <!-- colunas -->
+							<td>
+                                                            <!-- link para seleccionar o acessorio--><a href="#" onclick="sel_acess(<?php echo mysql_result($r_acess,$i,'id_acessorio')?>,'<?php echo mysql_result($r_acess, $i,'descricao')?>')" id=""> 
+                                                                                                                                         <!--imagem do acessorio--><img border=0 id="<?php echo mysql_result($r_acess,$i,'id_acessorio');?>" class="img_horas" width="150" height="133" alt="<?php echo mysql_result($r_acess,$i,'descricao');?>" src="imagem.php?idviatura=<?php echo mysql_result($r_acess,$i,'id_acessorio')?>">
+                                                                                                                                    </a>
+                                                                                                                             </td>
+                                                                                                                                
+						<?php
+						if($i==$n_acess) echo '</tr>'; //fim da linha da tabela
+					}
+				?>
+				</table>
+		</div>
+		
+		<!-- DETALHES DO ACESSORIO -->
+		<div title="Detalhes Acessorio" id="dlg_det_acess" class="ui-widget ui-dialog ui-widget-content ui-corner-all">
+			<table class="tab_det_acess" border=0>
+                                                                        <tr>
+                                                                            <!-- descricao do acessorio --><td colspan="2"><input id="inp_descricao_acessorio" style="width:400px;text-align:center;" type="text" readonly="readonly" value=""></td>
+                                                                        </tr>
+				<tr>
+					<td>Combustivel Acessorio</td>
+					<td><input style="font-size: 50px; text-align:center;width:300px;" class="inp_acesso" type="text" name="comb_acess"> L</td>
+				</tr>
+				<tr>
+					<td>Horas Acessorio</td>
+					<td><input style="font-size: 50px; text-align:center;width:100px;" class="inp_acesso" type="text" name="horas_acess"> :
+                                                                                                <select style="font-size: 50px; text-align:center;width:100px;" class="inp_acesso" type="text" name="minutos_acess"> 
+                                                                                                    <option>00</option>
+                                                                                                    <option>15</option>
+                                                                                                    <option>30</option>
+                                                                                                    <option>45</option>
+                                                                                                </select>
+                                                                                                </td>
+				</tr>
+				<tr>
+					<td>Contador Acessorio</td>
+					<td><input style="font-size: 50px; text-align:center;width:300px;" class="inp_acesso" type="text" name="horas_contador_acess"></td>
+				</tr>				
+				<tr>
+					<td colspan="3"><button onclick="fechar_acessorio()" type="button" id="but_det_acess" class="fg-button ui-state-default ui-corner-all" style="font-size:40px">Guardar</button></td>
+				</tr>
+			</table>
+		</div>
+                
+		<!-- DETALHES DA AVARIA  -->
+		<div title="Avaria" id="dlg_avarias" class="ui-widget ui-dialog ui-widget-content ui-corner-all">
+                                    <!-- tipo de avaria -->    
+                                    <select style="font-size:40px;width:550px;" name="tipo_avaria">
+                                            <?php
+                                                $q_tipo_avaria="select * from oficina_categorias order by desc_categoria";
+                                                $r_tipo_avaria=mysql_query($q_tipo_avaria);
+                                                
+                                                while($tipo_avaria=  mysql_fetch_array($r_tipo_avaria))
+                                                {
+                                                    echo '<option value="'.$tipo_avaria['desc_categoria'].'">'.$tipo_avaria['desc_categoria'].'</option>';
+                                                }
+                                            ?>
+                                        </select><br>
+                                        <!-- descricao da avaria -->
+                                        <label for="inp_desc_avaria">Descricao Avaria</label><br>
+                                        <input style="font-size:20px;width:550px;text-align:center;" type="text" name ="desc_avaria" id="inp_desc_avaria">
+                                        <!-- tempo gasto na avaria -->
+                                        <br><br>
+                                        <table border="0" style="width:580px;">
+                                            <tr>
+                                                <td><label>Tempo Gasto</label></td>
+                                                <td><label>Custo</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td>                                        
+                                                    <input style="font-size:50px; width:100px;text-align:center" type="text" name="horas_avaria">:
+                                                    <select style="font-size:50px;"  name="minutos_avaria">
+                                                        <option value="0">00</option>
+                                                        <option value="15">15</option>
+                                                        <option value="30">30</option>
+                                                        <option value="45">45</option>
+                                                    </select>
+                                                </td>
+                                                <td><input style="font-size:50px; width:200px;text-align:center" type="text" name="custo_avaria"> Euros</td>
+                                            </tr>
+                                        </table>
+                                        <br>
+                                        <label for="">Estado da Avaria</label>
+                                        <select style="font-size:50px" name="estado_avaria">
+                                            <option style="color:green;" value="Sim">Resolvida</option>
+                                            <option style="color:red;" value="Não" selected="selected">Nao Resolvida</option>
+                                        </select>
+                                        <br><br>
+                                        <center><button onclick="fechar_avaria()" type="button" id="but_fechar_avaria" class="fg-button ui-state-default ui-corner-all" style="font-size:40px;">Guardar</button></center>
+                                    </div>
+		
+	</form>
+	</center>
+
+	<?php
+	/*-----------------------------------------------------------------------------gravar dados-------------------------------------------*/
+	} else {
+		mysql_connect($DB_HOST,$DB_USER,$DB_PASS);
+		mysql_select_db($DB_TABLE) or die ('Erro de ligação á base de dados!');	
+		/*query para registar as horas*/
+		if($viat!=""){
+			/*REGISTAR HORAS*/$q_horas="insert into mov_viatura (id_viatura,id_funcionario,horas_viatura,data,desc_movviatura,transporte,id_viatura_transporte,local) values (".$viat.",".$_COOKIE['id_funcionario'].",".(($horas*60)+$minutos).",'".$data." ".date('H:i:s')."','".$desc."',".(($horas_transporte*60)+$minutos_transporte).",".$viatura_transporte[1].",".$local.")";
+			/*REGISTAR COMBUSTIVEL*/$q_abast="insert into mov_combustivel (id_funcionario,id_viatura,id_combustivel,data,tipo_movimento,valor_movimento,kms_viatura) values (".$_COOKIE['id_funcionario'].",".$viat.",'0','".$data." ".date('H:i:s')."','S',".$litros.",".$kms.")";	
+                                                      /*REGISTAR AVARIAS */ $q_nova_avaria="INSERT INTO mov_avarias (id_viatura,id_funcionario,data,preco) VALUES (".$viat.",".$_COOKIE['id_funcionario'].",'".$data." ".date('H:i:s')."','".$_POST['custo_avaria']."')";
+                                                     if(mysql_query($q_nova_avaria)){}else{ echo "<script>alert('Erro ao guardar avaria!')</script>";};
+			if(!mysql_query($q_horas)) { //insere o movimento das horas
+				echo $no_viat;
+				echo $q_horas."<br>".$q_abast; //teste bd
+				echo "<br><br>Erro de acesso á base de dados!"; //em caso de erro ao inserir na bd
+			}else{
+				mysql_query($q_abast); //insere o movimento do combustivel
+                                                                      //ecra das avarias DEPRECATED
+				/*if($avarias=="C/Avarias"){
+					require("avarias.php");//avarias
+				}else{*/
+					require("splash.php");//ecra inicial
+				/*}*/
+			}
+	
+                }else{
+			//no caso de ser sem viatura
+			//REGISTAR HORAS SEM VIATURA
+			$q_horas="insert into mov_viatura(id_viatura,id_funcionario,data,horas_viatura,desc_movviatura) values (84,".$_COOKIE['id_funcionario'].",'".date('Y-m-d H:i:s')."',".(($horas*60)+$minutos).",'".$desc."')";
+			if(!mysql_query($q_horas)){
+				echo $q_horas."<br>".$noviat."<br>Erro de acesso á base de dados!"; //em caso de erro ao inserir na bd
+			}else{
+				require("splash.php");//no caso de tudo ok
+			}
+		}
+	}
+?>
