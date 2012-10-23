@@ -273,7 +273,12 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
 		</tr>
 	</table>
 	</div>
-	
+                  <script>
+                        function limpar_transporte()
+                           {
+                               document.getElementById('transporte').value='';
+                           }
+                  </script>
 		<!-- CAIXA DE DIALOGO PARA SELECCIONAR O TRANSPORTE -->
 	<div title="Transporte" id="dlg_transp" class="ui-widget ui-dialog ui-widget-content ui-corner-all">
 		<?
@@ -281,7 +286,7 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
 			<center>
 				<input style="text-align:center;font-size:30px" type="text" id="transporte" name="transporte" ><br><br>
 				<button type="button" id="but_fechar_trans" class="fg-button ui-state-default ui-corner-all" style="font-size:40px">OK</button>
-				<button type="button" id="but_limpar_trans" class="fg-button ui-state-default ui-corner-all" style="font-size:40px">Limpar</button>
+				<button type="button" id="but_limpar_trans" class="fg-button ui-state-default ui-corner-all" style="font-size:40px" onclick="limpar_transporte()">Limpar</button>
 			</center>
 			';
 		?>
