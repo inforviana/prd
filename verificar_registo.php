@@ -100,7 +100,7 @@ for($i=0;$i<$n_mov_horas;$i++){
 		<?php echo mysql_result($r_mov_horas,$i,'viaturas.desc_viatura')?>
 	</td>
 	<td>
-		<?php echo mysql_result($r_mov_horas,$i,'viaturas.tipo_viatura')?>
+		<?php echo categoria_veiculo(mysql_result($r_mov_horas,$i,'viaturas.tipo_viatura'));?>
 	</td>
 	<td>
 		<?php echo '<input type="image" onclick="apagar('.mysql_result($r_mov_horas, $i,'id').',0)" src="apagar.png">'?>
@@ -136,7 +136,7 @@ for($i=0;$i<$n_mov_comb;$i++){
 		<?php echo mysql_result($r_mov_comb,$i,'viaturas.desc_viatura')?>
 	</td>
 	<td>
-		<?php echo mysql_result($r_mov_comb,$i,'viaturas.tipo_viatura')?>
+		<?php echo categoria_veiculo(mysql_result($r_mov_comb,$i,'viaturas.tipo_viatura'));?>
 	</td>
 	<td>
 		<?php echo '<input type="image" onclick="apagar('.mysql_result($r_mov_comb, $i,'idc').',1)" src="apagar.png">'?>
@@ -167,7 +167,7 @@ for($i=0;$i<$n_mov_avarias;$i++){
 		
 	</td>	
 	<td>
-		<?php echo mysql_result($r_mov_avarias,$i,'viaturas.tipo_viatura')?>
+		<?php echo categoria_veiculo(mysql_result($r_mov_avarias,$i,'viaturas.tipo_viatura'));?>
 	</td>
 	<td>
 		<?php echo mysql_result($r_mov_avarias,$i,'categoria')?>
