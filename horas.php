@@ -51,6 +51,13 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
 		}
 		if($no_viat!=1){
 	?>
+                      <script>
+                                   function alterar(inph,inpv)
+                                   {
+                                       //altera os valores das inputs escondidas de forma a conseguir passar os valores
+                                       document.getElementById(inph).value=inpv;
+                                     }
+                       </script>
 	<table id="hor-minimalist-b" summary="motd"> <!--descrição da viatura -->
 		<thead>
 			<tr>
@@ -204,9 +211,11 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
 		}
 		?>
 		<tr>
-			<?php if($no_viat!=1){ 
-			echo '<td ><font class="font_horas2">H/Kms do Veiculo:</font>';} //COM VIATURA?>
-			</td><td><input class="horasv" style="font-size: 40px;text-align: right" type="text" name="horasv" onclick="this.value=''" value="0"></td>
+			<?php 
+                                                                if($no_viat!=1) 
+                                                                        echo '<td ><font class="font_horas2">H/Kms do Veiculo:</font></td>';
+                                                                    ?>
+			<td><input class="horasv" style="font-size: 40px;text-align: right" type="text" name="horasv" onclick="this.value=''" value="0"></td>
 		</tr>
 		<tr>
 			<?php  
@@ -232,7 +241,7 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
 		</tr>
 		<tr>
 		<?php 
-                if($no_viat!=1){ //AVARIAS COM VIATURA
+                                             if($no_viat!=1){ //AVARIAS COM VIATURA
 		?>
 			<br><!--
 					<select name="avarias" class="option_minutos">
@@ -322,12 +331,12 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
                                                                         </tr>
 				<tr>
 					<td>Combustivel Acessorio</td>
-					<td><input style="font-size: 50px; text-align:center;width:300px;" class="inp_acesso" type="text" name="comb_acess"> L</td>
+					<td><input style="font-size: 50px; text-align:center;width:300px;" class="inp_acesso" type="text" name="comb_acess" onchange="alterar('hcomb_acess',this.value)"> L</td>
 				</tr>
 				<tr>
 					<td>Horas Acessorio</td>
-					<td><input style="font-size: 50px; text-align:center;width:100px;" class="inp_acesso" type="text" name="horas_acess"> :
-                                                                                                <select style="font-size: 50px; text-align:center;width:100px;" class="inp_acesso" type="text" name="minutos_acess"> 
+					<td><input style="font-size: 50px; text-align:center;width:100px;" class="inp_acesso" type="text" name="horas_acess" onchange="alterar('hhoras_acess',this.value)"> :
+                                                                                                <select style="font-size: 50px; text-align:center;width:100px;" class="inp_acesso" type="text" name="minutos_acess" onchange="alterar('hminutos_acess',this.value)"> 
                                                                                                     <option>00</option>
                                                                                                     <option>15</option>
                                                                                                     <option>30</option>
@@ -337,7 +346,7 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
 				</tr>
 				<tr>
 					<td>Contador Acessorio</td>
-					<td><input style="font-size: 50px; text-align:center;width:300px;" class="inp_acesso" type="text" name="horas_contador_acess"></td>
+					<td><input style="font-size: 50px; text-align:center;width:300px;" class="inp_acesso" type="text" name="horas_contador_acess" onchange="alterar('hcont_acess',this.value)"></td>
 				</tr>				
 				<tr>
 					<td colspan="3"><button onclick="fechar_acessorio()" type="button" id="but_det_acess" class="fg-button ui-state-default ui-corner-all" style="font-size:40px">Guardar</button></td>
@@ -345,10 +354,10 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
 			</table>
 		</div>
                 
-		<!-- DETALHES DA AVARIA  -->
-		<div title="Avaria" id="dlg_avarias" class="ui-widget ui-dialog ui-widget-content ui-corner-all">
+	<!-- DETALHES DA AVARIA  -->
+	<div title="Avaria" id="dlg_avarias" class="ui-widget ui-dialog ui-widget-content ui-corner-all" style="position:relative">
                                     <!-- tipo de avaria -->    
-                                    <select style="font-size:40px;width:550px;" name="tipo_avaria">
+                                    <select onchange="alterar('htipo_avaria',this.value)" style="font-size:40px;width:550px;" name="tipo_avaria">
                                             <?php
                                                 $q_tipo_avaria="select * from oficina_categorias order by desc_categoria";
                                                 $r_tipo_avaria=mysql_query($q_tipo_avaria);
@@ -361,7 +370,7 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
                                         </select><br>
                                         <!-- descricao da avaria -->
                                         <label for="inp_desc_avaria">Descricao Avaria</label><br>
-                                        <input style="font-size:20px;width:550px;text-align:center;" type="text" name ="desc_avaria" id="inp_desc_avaria">
+                                        <input onchange="alterar('hdesc_avaria',this.value)" style="font-size:20px;width:550px;text-align:center;" type="text" name ="desc_avaria" id="inp_desc_avaria">
                                         <!-- tempo gasto na avaria -->
                                         <br><br>
                                         <table border="0" style="width:580px;">
@@ -371,41 +380,59 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
                                             </tr>
                                             <tr>
                                                 <td>                                        
-                                                    <input style="font-size:50px; width:100px;text-align:center" type="text" name="horas_avaria">:
-                                                    <select style="font-size:50px;"  name="minutos_avaria">
+                                                    <input onchange="alterar('hhoras_avaria',this.value)" style="font-size:50px; width:100px;text-align:center" type="text" name="horas_avaria">:
+                                                    <select onchange="alterar('hminutos_avaria',this.value)"style="font-size:50px;"  name="minutos_avaria">
                                                         <option value="0">00</option>
                                                         <option value="15">15</option>
                                                         <option value="30">30</option>
                                                         <option value="45">45</option>
                                                     </select>
                                                 </td>
-                                                <td><input style="font-size:50px; width:200px;text-align:center" type="text" name="custo_avaria"> Euros</td>
+                                                <td>
+                                                    <input onchange="alterar('hcusto_avaria',this.value)" style="font-size:50px; width:200px;text-align:center" type="text" name="custo_avaria"> Euros</td>
                                             </tr>
                                         </table>
                                         <br>
                                         <label for="">Estado da Avaria</label>
-                                        <select style="font-size:50px" name="estado_avaria">
+                                        <select  onchange="alterar('hestado_avaria',this.value)"  style="font-size:50px" name="estado_avaria">
                                             <option style="color:green;" value="Sim">Resolvida</option>
                                             <option style="color:red;" value="Não" selected="selected">Nao Resolvida</option>
                                         </select>
-                                        <br><br>
+                                        <br><brZ
                                         <center><button onclick="fechar_avaria()" type="button" id="but_fechar_avaria" class="fg-button ui-state-default ui-corner-all" style="font-size:40px;">Guardar</button></center>
                                     </div>
-		
+                                            <!-- resolvem o problema das divs externas -->
+                                            <input type="hidden" id="htipo_avaria" name="htipo_avaria" value="Caixa">
+                                            <input type="hidden" id="hdesc_avaria" name="hdesc_avaria">
+                                            <input type="hidden" id="hhoras_avaria" name="hhoras_avaria" value="0">
+                                            <input type="hidden" id="hminutos_avaria" name="hminutos_avaria" value="00">
+                                            <input type="hidden" id="hestado_avaria" name="hestado_avaria" value="Não">
+		<input type="hidden" id="hcusto_avaria" name="hcusto_avaria" value="0">
+                                            <!-- hiddens do acessorio -->
+                                            <input type="hidden" name="id_acesso" id="id_acesso" value="0">
+                                            <input type="hidden" name="hminutos_acess" id="hminutos_acess" value="0">
+                                            <input type="hidden" name="hhoras_acess" id="hhoras_acess" value="0">
+                                            <input type="hidden" name="hcomb_acess" id="hcomb_acess" value="0">
+                                            <input type="hidden" name="hcont_acess" id="hcont_acess">
 	</form>
 	</center>
 
 	<?php
-	/*-----------------------------------------------------------------------------gravar dados-------------------------------------------*/
+	/*-----------------------------------------------------------------------------                 GRAVAR DADOS               -------------------------------------------*/
 	} else {
 		mysql_connect($DB_HOST,$DB_USER,$DB_PASS);
 		mysql_select_db($DB_TABLE) or die ('Erro de ligação á base de dados!');	
 		/*query para registar as horas*/
 		if($viat!=""){
-			/*REGISTAR HORAS*/$q_horas="insert into mov_viatura (id_viatura,id_funcionario,horas_viatura,data,desc_movviatura,transporte,id_viatura_transporte,local) values (".$viat.",".$_COOKIE['id_funcionario'].",".(($horas*60)+$minutos).",'".$data." ".date('H:i:s')."','".$desc."',".(($horas_transporte*60)+$minutos_transporte).",".$viatura_transporte[1].",".$local.")";
+                                                                    //obter precos hora
+                                                                    $preco_hora_funcionario=mysql_query("select preco_hora_normal, preco_hora_extra, preco_sabado from funcionario where id_funcionario=".$_COOKIE['id_funcionario']);
+                                                                    $preco_viatura=mysql_query("select preco_hora from viaturas where id_viatura=".$viat);
+			/*REGISTAR HORAS*/$q_horas="insert into mov_viatura (id_viatura,id_funcionario,horas_viatura,data,desc_movviatura,transporte,id_viatura_transporte,local,id_acessorio,horas_trab_acessorio,preco_hora_normal,preco_hora_extra,preco_hora_sabado,preco_viatura) values (".$viat.",".$_COOKIE['id_funcionario'].",".(($horas*60)+$minutos).",'".$data." ".date('H:i:s')."','".$desc."',".(($horas_transporte*60)+$minutos_transporte).",".$viatura_transporte[1].",".$local.",".$_POST['id_acesso'].",".((($_POST['hhoras_acess'])*60)+($_POST['hminutos_acess'])).",".mysql_result($preco_hora_funcionario,0,0).",".  mysql_result($preco_hora_funcionario, 0,1).",'".  mysql_result($preco_hora_funcionario, 0,2)."','".  mysql_result($preco_viatura, 0,0)."')";
 			/*REGISTAR COMBUSTIVEL*/$q_abast="insert into mov_combustivel (id_funcionario,id_viatura,id_combustivel,data,tipo_movimento,valor_movimento,kms_viatura) values (".$_COOKIE['id_funcionario'].",".$viat.",'0','".$data." ".date('H:i:s')."','S',".$litros.",".$kms.")";	
-                                                      /*REGISTAR AVARIAS */ $q_nova_avaria="INSERT INTO mov_avarias (id_viatura,id_funcionario,data,preco) VALUES (".$viat.",".$_COOKIE['id_funcionario'].",'".$data." ".date('H:i:s')."','".$_POST['custo_avaria']."')";
-                                                     if(mysql_query($q_nova_avaria)){}else{ echo "<script>alert('Erro ao guardar avaria!')</script>";};
+                                                      /*REGISTAR AVARIAS */ $q_nova_avaria="INSERT INTO mov_avarias (id_viatura,id_funcionario,data,preco,categoria,desc_avaria,horas,estado) VALUES (".$viat.",".$_COOKIE['id_funcionario'].",'".$data." ".date('H:i:s')."','".$_POST['hcusto_avaria']."','".$_POST['htipo_avaria']."','".$_POST['hdesc_avaria']."',".(($_POST['hhoras_avaria']*60)+($_POST['hminutos_avaria'])).",'".$_POST['hestado_avaria']."')";
+
+                                                                 if(($_POST['hhoras_avaria']+$_POST['hminutos_avaria'])>0)
+                                                                     if(mysql_query($q_nova_avaria)){}else{ echo "Erro ao guardar avaria!";};
 			if(!mysql_query($q_horas)) { //insere o movimento das horas
 				echo $no_viat;
 				echo $q_horas."<br>".$q_abast; //teste bd
