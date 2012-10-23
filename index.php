@@ -237,7 +237,7 @@ function categoria_veiculo($id_categoria) //devlolve a categoria do veiculo
 			});
 			
 					//estado dos botoes
-			$("#but_registodiario, #but_avaria, #but_acess, #but_oficina, #but_defs, #but_transp, #but_fechar_trans, #but_det_acess, #but_avarias, #but_fechar_avaria").hover(
+			$("#but_registodiario, #but_avaria, #but_acess, #but_oficina, #but_defs, #but_transp, #but_fechar_trans, #but_det_acess, #but_avarias, #but_fechar_avaria, #but_limpar_trans").hover(
 				function() {$(this).addClass("ui-state-hover");},
 				function() {$(this).removeClass("ui-state-hover");}
 			);
