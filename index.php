@@ -220,9 +220,10 @@ function categoria_veiculo($id_categoria) //devlolve a categoria do veiculo
                                                         });
 			
 			
-			$("#p_viatura").autocomplete({ //autocomplete para as combo boxes em JS
+			/*$("#p_viatura").autocomplete({ //autocomplete para as combo boxes em JS
 				source: viaturas //viaturas
-			});
+                                                                        
+			});*/
 			
 			$("#transporte").autocomplete({
 				source:viaturas_transporte //viaturas de transporte
