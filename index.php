@@ -57,9 +57,21 @@ if(isset($pin_l)){ //criar cookie
 		/*header("Location:index.php");*/
 	}
 $conteudo=$_GET['conteudo'];
+
+
+
+//*********************************** FUNCOES PHP / SQL ***************************************************
+function categoria_veiculo($id_categoria) //devlolve a categoria do veiculo
+{
+    $q_categoria_veiculo = "select categoria  from categorias_viatura where id_categoria=".$id_categoria;
+    $r_categoria_veiculo=mysql_query($q_categoria_veiculo);
+    return mysql_result($r_categoria_veiculo,0,0);
+}
+
+//************************************* HTML *************************************************************
 ?>
 <html>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE HTML>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859">
 		<meta http-equiv="X-UA-Compatible" content="IE=9" />
@@ -74,7 +86,7 @@ $conteudo=$_GET['conteudo'];
 		<script type="text/javascript" src="js/jquery.capty.min.js"></script>
 	
 		<!-- script para trocar de pagina -->
-	<script type="text/javascript">
+                      <script type="text/javascript">
 		function abrir_url(url){
 			if(url=='Sem Serviço'){
 					window.location='index.php?pagina=horas&serv='+url;
@@ -93,6 +105,7 @@ $conteudo=$_GET['conteudo'];
 		function sel_acess(idacess,descricao_acessorio) //seleccionar acessorio
 			{
 				document.getElementById('id_acess').value=idacess; //aplicar o valor do acessorio ao form
+                                                                        document.getElementById('id_acesso').value=idacess;
                                                                         document.getElementById('inp_descricao_acessorio').value=descricao_acessorio;
 				$("#dlg_acess").dialog('close'); //fechar seleccao dos acessorios
 				$("#dlg_det_acess").dialog('open');

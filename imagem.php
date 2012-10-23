@@ -16,7 +16,7 @@
 	
 	if(strlen($img)<100)
 	{
-		$r=mysql_query("select img from config where attrib='imgv'");
+		$r=mysql_query("select value_img from config where attrib='sem_imagem'");
 		$img=mysql_result($r,0);
 	}
 	
