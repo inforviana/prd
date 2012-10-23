@@ -24,7 +24,7 @@ if(isset($pagina_v)){
 
 if (isset($p_viat)||isset($p_cat)){ //verifica se é ou nao para pesquisar 
 	//(select * from viaturas where tipo_viatura like '%".$p_cat."%')as vcat
-	 $q_viat="select * from (select * from viaturas where tipo_viatura like '%".$p_cat."%')as vcat where modelo_viatura like '%".$p_viat."%' or desc_viatura like '%".$p_viat."%' or matricula_viatura like '%".$p_viat."%' or marca_viatura like '%".$p_viat."%'";//query para pesquisar as viaturas mediante determinados parametros
+	 $q_viat="select * from (select * from viaturas where acessorio=0 and tipo_viatura like '%".$p_cat."%')as vcat where modelo_viatura like '%".$p_viat."%' or desc_viatura like '%".$p_viat."%' or matricula_viatura like '%".$p_viat."%' or marca_viatura like '%".$p_viat."%'";//query para pesquisar as viaturas mediante determinados parametros
 	 $r_viat=mysql_query($q_viat);
 	 $c_viat=mysql_num_rows($r_viat);
 }
