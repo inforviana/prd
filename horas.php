@@ -373,9 +373,8 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
                                                 }
                                             ?>
                                         </select><br>
-                                        <!-- descricao da avaria -->
-                                        <label for="inp_desc_avaria">Descricao Avaria</label><br>
-                                        <input onchange="alterar('hdesc_avaria',this.value)" style="font-size:20px;width:550px;text-align:center;" type="text" name ="desc_avaria" id="inp_desc_avaria">
+                                        <!-- descricao da avaria --><br>
+                                        <input onchange="alterar('hdesc_avaria',this.value)" style="font-size:20px;width:550px;text-align:center;" type="text"  placeholder="descricao da avaria" name ="desc_avaria" id="inp_desc_avaria">
                                         <!-- tempo gasto na avaria -->
                                         <br><br>
                                         <table border="0" style="width:580px;">
@@ -437,11 +436,11 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
                                                       /*REGISTAR AVARIAS */ $q_nova_avaria="INSERT INTO mov_avarias (id_viatura,id_funcionario,data,preco,categoria,desc_avaria,horas,estado) VALUES (".$viat.",".$_COOKIE['id_funcionario'].",'".$data." ".date('H:i:s')."','".$_POST['hcusto_avaria']."','".$_POST['htipo_avaria']."','".$_POST['hdesc_avaria']."',".(($_POST['hhoras_avaria']*60)+($_POST['hminutos_avaria'])).",'".$_POST['hestado_avaria']."')";
 
                                                                  if(($_POST['hhoras_avaria']+$_POST['hminutos_avaria'])>0)
-                                                                     if(mysql_query($q_nova_avaria)){}else{ echo "Erro ao guardar avaria!";};
+                                                                     if(mysql_query($q_nova_avaria)){}else{ echo "<font style=\"color:red\">Erro ao guardar avaria!</font>";};
 			if(!mysql_query($q_horas)) { //insere o movimento das horas
 				echo $no_viat;
 				echo $q_horas."<br>".$q_abast; //teste bd
-				echo "<br><br>Erro de acesso á base de dados!"; //em caso de erro ao inserir na bd
+				echo "<br><br><font style=\"color:red\">Erro de acesso á base de dados!</font>"; //em caso de erro ao inserir na bd
 			}else{
 				mysql_query($q_abast); //insere o movimento do combustivel
                                                                       //ecra das avarias DEPRECATED
@@ -457,7 +456,7 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
 			//REGISTAR HORAS SEM VIATURA
 			$q_horas="insert into mov_viatura(id_viatura,id_funcionario,data,horas_viatura,desc_movviatura) values (84,".$_COOKIE['id_funcionario'].",'".date('Y-m-d H:i:s')."',".(($horas*60)+$minutos).",'".$desc."')";
 			if(!mysql_query($q_horas)){
-				echo $q_horas."<br>".$noviat."<br>Erro de acesso á base de dados!"; //em caso de erro ao inserir na bd
+				echo $q_horas."<br>".$noviat."<br><font style=\"color:red\">Erro de acesso á base de dados!</font>"; //em caso de erro ao inserir na bd
 			}else{
 				require("splash.php");//no caso de tudo ok
 			}

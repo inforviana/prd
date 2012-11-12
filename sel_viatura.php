@@ -63,7 +63,7 @@ if (isset($p_viat)||isset($p_cat)){ //verifica se é ou nao para pesquisar
 			?>
 			</select>-->
 			<table><tr><td>
-			<input style="font-size: 30px;text-align: center;"  value="Pesquisa"  onclick="this.value='';" type="text" name="p_viat" id="p_viatura" maxlength="" size="10"/><br></td><td>
+			<input style="font-size: 30px;text-align: center;"  placeholder="Pesquisa"  onclick="this.value='';" type="text" name="p_viat" id="p_viatura" maxlength="" size="10"/><br></td><td>
 			<button class="ui-button" type="submit" style="font-size:30px ;height: 55px; width: 140px">Procurar</button></td></tr></table>
 		</form>
 		<table id="hor-minimalist-b" summary="viaturas">
