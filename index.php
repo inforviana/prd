@@ -5,8 +5,8 @@ require('config.php'); //carregar variaveis globais
 	//seleccionar a tabela a utilizar
 	mysql_select_db($DB_TABLE) or die('Erro de liga��o � base de dados!');
 	
-$accao=$_GET['accao']; //opera��o a executar
-$pin_l=$_POST['pin']; //pin obtido a partir do form de login
+if(isset($_GET['accao'])) $accao=$_GET['accao']; //opera��o a executar
+if(isset($_POST['pin'])) $pin_l=$_POST['pin']; //pin obtido a partir do form de login
 
 if (isset($accao)) { //logout do funcionario
 	if($accao="sair") {
