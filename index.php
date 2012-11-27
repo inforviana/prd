@@ -1,11 +1,11 @@
 <?php
 require('config.php'); //carregar variaveis globais
-	//ligar á base de dados
-	mysql_connect($DB_HOST,$DB_USER,$DB_PASS);
+	//ligar ï¿½ base de dados
+	if(mysql_connect($DB_HOST,$DB_USER,$DB_PASS))
 	//seleccionar a tabela a utilizar
-	@mysql_select_db($DB_TABLE) or die('Erro de ligação á base de dados!');
+	mysql_select_db($DB_TABLE) or die('Erro de ligaï¿½ï¿½o ï¿½ base de dados!');
 	
-$accao=$_GET['accao']; //operação a executar
+$accao=$_GET['accao']; //operaï¿½ï¿½o a executar
 $pin_l=$_POST['pin']; //pin obtido a partir do form de login
 
 if (isset($accao)) { //logout do funcionario
@@ -26,7 +26,7 @@ if(isset($pin_l)){ //criar cookie
 	
 	
 	$num=mysql_numrows($dados);
-	//fechar o acesso á base de dados
+	//fechar o acesso ï¿½ base de dados
 	mysql_close();
 		
 	if ($num>0) { //preencher variaveis nas cookies
@@ -88,9 +88,9 @@ function categoria_veiculo($id_categoria) //devlolve a categoria do veiculo
 		<!-- script para trocar de pagina -->
                       <script type="text/javascript">
 		function abrir_url(url){
-			if(url=='Sem Serviço'){
+			if(url=='Sem Serviï¿½o'){
 					window.location='index.php?pagina=horas&serv='+url;
-				}else if(url=='Serviço Externo'){
+				}else if(url=='Serviï¿½o Externo'){
 					window.location='index.php?pagina=horas&serv='+url;
 				}else if(url=='Ajudante'){
 					window.location='index.php?pagina=horas&serv='+url;
@@ -164,7 +164,7 @@ function categoria_veiculo($id_categoria) //devlolve a categoria do veiculo
 			$("#data").datepicker({
 				dateFormat:'yy-mm-dd',
 				dayNamesMin:['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
-				monthNames:['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'] 
+				monthNames:['Janeiro', 'Fevereiro', 'Marï¿½o', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'] 
 			});
 			
 			$("#dlg_data").dialog({ //dialogo para seleccionar a data a usar nos registos
