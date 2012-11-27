@@ -40,7 +40,7 @@ if(isset($pin_l)){ //criar cookie
 	//AVARIAS
 	if(!isset($viat)){
 		/*http://localhost/index.php?pagina=registo*/
-		$viat=$_GET['viatura'];
+		if(isset($_GET['viatura'])) $viat=$_GET['viatura'];
 	}
 	
     if(isset($_GET['guardar']))
@@ -56,7 +56,7 @@ if(isset($pin_l)){ //criar cookie
 		mysql_query($q_avaria);
 		/*header("Location:index.php");*/
 	}
-$conteudo=$_GET['conteudo'];
+    if(isset($_GET['conteudo'])) $conteudo=$_GET['conteudo'];
 
 
 
