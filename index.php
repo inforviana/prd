@@ -43,15 +43,15 @@ if(isset($pin_l)){ //criar cookie
 		$viat=$_GET['viatura'];
 	}
 	
-	$guardar=$_GET['guardar'];
-	$cat_avaria=$_POST['categorias'];
-	$obs_avaria=$_POST['obs'];
-	$p_avaria=$_POST['valor'];
-	$c_avaria=$_POST['concluida'];
-	$h_avaria=$_POST['horas_avaria'];
-	$m_avaria=$_POST['minutos_avaria'];
-	
-	if(isset($guardar)){ //guardar a avaria
+    if(isset($_GET['guardar']))
+    {
+    	$guardar=$_GET['guardar'];
+    	$cat_avaria=$_POST['categorias'];
+    	$obs_avaria=$_POST['obs'];
+    	$p_avaria=$_POST['valor'];
+    	$c_avaria=$_POST['concluida'];
+    	$h_avaria=$_POST['horas_avaria'];
+    	$m_avaria=$_POST['minutos_avaria'];
 		$q_avaria="insert into mov_avarias (id_viatura,id_funcionario,data,categoria,desc_avaria,preco,estado,horas) values (".$viat.",".$_COOKIE['id_funcionario'].",'".date('Y-m-d H:i:s')."','".$cat_avaria."','".$obs_avaria."',".$p_avaria.",'".$c_avaria."',".(($h_avaria*60)+$m_avaria).")";
 		mysql_query($q_avaria);
 		/*header("Location:index.php");*/
