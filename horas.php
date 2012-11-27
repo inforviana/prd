@@ -15,14 +15,18 @@ if(isset($_POST['local']))
     $ajudante=$_POST['ajudante'];
     $tipo_serv=$_GET['serv']; //sem viatura
     $viatura_transporte=explode(' | ',$_POST['viat_t']); //separar o text o que vem do tranporte
+
+
+    //verifica viatura de transporte (84 - sem viatura)
+    if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
 }
-
-//verifica viatura de transporte (84 - sem viatura)
-if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
-
-	if(!isset($viat)){ //VERIFICA SE A VIATURA FOI PASSADA COMO VARIAVEL \ SERVI�O EXTERNO \ SEM SERVI�O
-		$no_viat=1;
-	}
+    if(isset($_GET['viatura']))
+    {
+        $no_viat=0;
+    }else{
+        $no_viat=1;
+    }
+		
 
 	if(!isset($horas)){ //verifica se ja tem os dados para abastecimento ou nao
 	mysql_connect($DB_HOST,$DB_USER,$DB_PASS);
