@@ -1,29 +1,32 @@
 <?php
-$local=$_POST['local'];
-$data=$_POST['data'];
-$horas=$_POST['horas']; //variaveis globais
-$minutos=$_POST['minutos'];
-$horas_transporte=$_POST['horas_transporte'];
-$minutos_transporte=$_POST['minutos_transporte'];
-$litros=$_POST['litros'];
-$kms=$_POST['horasv'];
-$avarias=$_POST['avarias'];
-$desc=$_POST['desc'];
-$viat=$_GET['viatura'];
-$ajudante=$_POST['ajudante'];
-$tipo_serv=$_GET['serv']; //sem viatura
-$viatura_transporte=explode(' | ',$_POST['viat_t']); //separar o text o que vem do tranporte
+if(isset($_POST['local']))
+{
+    $local=$_POST['local'];
+    $data=$_POST['data'];
+    $horas=$_POST['horas']; //variaveis globais
+    $minutos=$_POST['minutos'];
+    $horas_transporte=$_POST['horas_transporte'];
+    $minutos_transporte=$_POST['minutos_transporte'];
+    $litros=$_POST['litros'];
+    $kms=$_POST['horasv'];
+    $avarias=$_POST['avarias'];
+    $desc=$_POST['desc'];
+    $viat=$_GET['viatura'];
+    $ajudante=$_POST['ajudante'];
+    $tipo_serv=$_GET['serv']; //sem viatura
+    $viatura_transporte=explode(' | ',$_POST['viat_t']); //separar o text o que vem do tranporte
+}
 
 //verifica viatura de transporte (84 - sem viatura)
 if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
 
-	if(!isset($viat)){ //VERIFICA SE A VIATURA FOI PASSADA COMO VARIAVEL \ SERVIÇO EXTERNO \ SEM SERVIÇO
+	if(!isset($viat)){ //VERIFICA SE A VIATURA FOI PASSADA COMO VARIAVEL \ SERVIï¿½O EXTERNO \ SEM SERVIï¿½O
 		$no_viat=1;
 	}
 
 	if(!isset($horas)){ //verifica se ja tem os dados para abastecimento ou nao
 	mysql_connect($DB_HOST,$DB_USER,$DB_PASS);
-	mysql_select_db($DB_TABLE) or die ('Erro de ligação á base de dados!');
+	mysql_select_db($DB_TABLE) or die ('Erro de ligaï¿½ï¿½o ï¿½ base de dados!');
 	//obter kms actuais da viatura
 	$q_kms_actuais="select max(kms_viatura) from mov_combustivel where id_viatura=".$viat;
 	$r_kms_actuais=mysql_query($q_kms_actuais);
@@ -58,10 +61,10 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
                                        document.getElementById(inph).value=inpv;
                                      }
                        </script>
-	<table id="hor-minimalist-b" summary="motd"> <!--descrição da viatura -->
+	<table id="hor-minimalist-b" summary="motd"> <!--descriï¿½ï¿½o da viatura -->
 		<thead>
 			<tr>
-				<th>DIÁRIA DE VIATURA</th>
+				<th>DIï¿½RIA DE VIATURA</th>
 			</tr>
 			<!--
 			<tr>
@@ -116,7 +119,7 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
                                                                                     $diasem='Segunda';
                                                                                     break;
                                                                                 case '2':
-                                                                                    $diasem='Terça';
+                                                                                    $diasem='Terï¿½a';
                                                                                     break;
                                                                                 case '3':
                                                                                     $diasem='Quarta';
@@ -165,14 +168,14 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
 				// <br><input style="font-size: 60px;" align="center" type="text" name="horas" maxlength="" size="2">
 
 				// <br>
-				// <font color="black"><b>DESCRIÇÃO:</b></font><br><input style="font-size: 30px;" class="keyboardInput" type="text" name="desc" maxlength="" size="35"><br>
+				// <font color="black"><b>DESCRIï¿½ï¿½O:</b></font><br><input style="font-size: 30px;" class="keyboardInput" type="text" name="desc" maxlength="" size="35"><br>
 				// <center><br><button class="pesquisa_btn" type="submit" style="height: 100px; width: 300px">Registar Horas</button></center>
 		
 /* 		<tr>
 			<td ><font class="font_horas">Foi Ajudante:</font></td>
 			<td>
 				<select name="ajudante" class="option_minutos">
-					<option value="0" selected="selected">Não</option>
+					<option value="0" selected="selected">Nï¿½o</option>
 					<option value="1">Sim</option>
 				</select></td>
 		</tr> */
@@ -262,7 +265,7 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
 				<?php    //BOTAO PARA GRAVAR
 					if($no_viat==1){
 					echo "<center>";
-					echo '<br><font class="font_horas2">Descrição do serviço:</font><br><input style="font-size: 40px;text-align: center" type="text" name="desc" type="text" size="20"></text><br><br>';
+					echo '<br><font class="font_horas2">Descriï¿½ï¿½o do serviï¿½o:</font><br><input style="font-size: 40px;text-align: center" type="text" name="desc" type="text" size="20"></text><br><br>';
 					}
 				?>
 				<input class="but_registo" type="image" src="botao_ok.png">
@@ -400,7 +403,7 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
                                         <label for="">Estado da Avaria</label>
                                         <select  onchange="alterar('hestado_avaria',this.value)"  style="font-size:50px" name="estado_avaria">
                                             <option style="color:green;" value="Sim">Resolvida</option>
-                                            <option style="color:red;" value="Não" selected="selected">Nao Resolvida</option>
+                                            <option style="color:red;" value="Nï¿½o" selected="selected">Nao Resolvida</option>
                                         </select>
                                         <br><brZ
                                         <center><button onclick="fechar_avaria()" type="button" id="but_fechar_avaria" class="fg-button ui-state-default ui-corner-all" style="font-size:40px;">Guardar</button></center>
@@ -410,7 +413,7 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
                                             <input type="hidden" id="hdesc_avaria" name="hdesc_avaria">
                                             <input type="hidden" id="hhoras_avaria" name="hhoras_avaria" value="0">
                                             <input type="hidden" id="hminutos_avaria" name="hminutos_avaria" value="00">
-                                            <input type="hidden" id="hestado_avaria" name="hestado_avaria" value="Não">
+                                            <input type="hidden" id="hestado_avaria" name="hestado_avaria" value="Nï¿½o">
 		<input type="hidden" id="hcusto_avaria" name="hcusto_avaria" value="0">
                                             <!-- hiddens do acessorio -->
                                             <input type="hidden" name="id_acesso" id="id_acesso" value="0">
@@ -425,7 +428,7 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
 	/*-----------------------------------------------------------------------------                 GRAVAR DADOS               -------------------------------------------*/
 	} else {
 		mysql_connect($DB_HOST,$DB_USER,$DB_PASS);
-		mysql_select_db($DB_TABLE) or die ('Erro de ligação á base de dados!');	
+		mysql_select_db($DB_TABLE) or die ('Erro de ligaï¿½ï¿½o ï¿½ base de dados!');	
 		/*query para registar as horas*/
 		if($viat!=""){
                                                                     //obter precos hora
@@ -440,7 +443,7 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
 			if(!mysql_query($q_horas)) { //insere o movimento das horas
 				echo $no_viat;
 				echo $q_horas."<br>".$q_abast; //teste bd
-				echo "<br><br><font style=\"color:red\">Erro de acesso á base de dados!</font>"; //em caso de erro ao inserir na bd
+				echo "<br><br><font style=\"color:red\">Erro de acesso ï¿½ base de dados!</font>"; //em caso de erro ao inserir na bd
 			}else{
 				mysql_query($q_abast); //insere o movimento do combustivel
                                                                       //ecra das avarias DEPRECATED
@@ -456,7 +459,7 @@ if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
 			//REGISTAR HORAS SEM VIATURA
 			$q_horas="insert into mov_viatura(id_viatura,id_funcionario,data,horas_viatura,desc_movviatura) values (84,".$_COOKIE['id_funcionario'].",'".date('Y-m-d H:i:s')."',".(($horas*60)+$minutos).",'".$desc."')";
 			if(!mysql_query($q_horas)){
-				echo $q_horas."<br>".$noviat."<br><font style=\"color:red\">Erro de acesso á base de dados!</font>"; //em caso de erro ao inserir na bd
+				echo $q_horas."<br>".$noviat."<br><font style=\"color:red\">Erro de acesso ï¿½ base de dados!</font>"; //em caso de erro ao inserir na bd
 			}else{
 				require("splash.php");//no caso de tudo ok
 			}
