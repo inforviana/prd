@@ -164,7 +164,7 @@ function categoria_veiculo($id_categoria) //devlolve a categoria do veiculo
 			$("#data").datepicker({
 				dateFormat:'yy-mm-dd',
 				dayNamesMin:['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
-				monthNames:['Janeiro', 'Fevereiro', 'Mar�o', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'] 
+				monthNames:['Janeiro', 'Fevereiro', 'Marco', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'] 
 			});
 			
 			$("#dlg_data").dialog({ //dialogo para seleccionar a data a usar nos registos

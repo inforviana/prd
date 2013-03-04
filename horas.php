@@ -30,7 +30,7 @@ if(isset($_POST['local']))
 
 	if(!isset($horas)){ //verifica se ja tem os dados para abastecimento ou nao
 	mysql_connect($DB_HOST,$DB_USER,$DB_PASS);
-	mysql_select_db($DB_TABLE) or die ('Erro de liga��o � base de dados!');
+	mysql_select_db($DB_TABLE) or die ('Erro de ligacao a base de dados!');
 	//obter kms actuais da viatura
 	$q_kms_actuais="select max(kms_viatura) from mov_combustivel where id_viatura=".$viat;
 	$r_kms_actuais=mysql_query($q_kms_actuais);
@@ -68,7 +68,7 @@ if(isset($_POST['local']))
 	<table id="hor-minimalist-b" summary="motd"> <!--descri��o da viatura -->
 		<thead>
 			<tr>
-				<th>DI�RIA DE VIATURA</th>
+				<th>DIARIA DA VIATURA</th>
 			</tr>
 			<!--
 			<tr>
@@ -123,7 +123,7 @@ if(isset($_POST['local']))
                                                                                     $diasem='Segunda';
                                                                                     break;
                                                                                 case '2':
-                                                                                    $diasem='Ter�a';
+                                                                                    $diasem='Terca';
                                                                                     break;
                                                                                 case '3':
                                                                                     $diasem='Quarta';
@@ -269,7 +269,7 @@ if(isset($_POST['local']))
 				<?php    //BOTAO PARA GRAVAR
 					if($no_viat==1){
 					echo "<center>";
-					echo '<br><font class="font_horas2">Descri��o do servi�o:</font><br><input style="font-size: 40px;text-align: center" type="text" name="desc" type="text" size="20"></text><br><br>';
+					echo '<br><font class="font_horas2">Descricao do servico: </font><br><input style="font-size: 40px;text-align: center" type="text" name="desc" type="text" size="20"></text><br><br>';
 					}
 				?>
 				<input class="but_registo" type="image" src="botao_ok.png">
@@ -343,13 +343,13 @@ if(isset($_POST['local']))
                                                                         </tr>
 				<tr>
 					<td>Combustivel Acessorio</td>
-					<td><input style="font-size: 50px; text-align:center;width:300px;" class="inp_acesso" type="text" name="comb_acess" onchange="alterar('hcomb_acess',this.value)"> L</td>
+					<td><input style="font-size: 50px; text-align:center;width:300px;" class="inp_acesso" type="text" name="comb_acess" onchange="alterar('hcomb_acess',this.value)" value="0"> L</td>
 				</tr>
 				<tr>
 					<td>Horas Acessorio</td>
 					<td><input style="font-size: 50px; text-align:center;width:100px;" class="inp_acesso" type="text" name="horas_acess" onchange="alterar('hhoras_acess',this.value)"> :
                                                                                                 <select style="font-size: 50px; text-align:center;width:100px;" class="inp_acesso" type="text" name="minutos_acess" onchange="alterar('hminutos_acess',this.value)"> 
-                                                                                                    <option>00</option>
+                                                                                                    <option selected="selected">00</option>
                                                                                                     <option>15</option>
                                                                                                     <option>30</option>
                                                                                                     <option>45</option>
@@ -407,7 +407,7 @@ if(isset($_POST['local']))
                                         <label for="">Estado da Avaria</label>
                                         <select  onchange="alterar('hestado_avaria',this.value)"  style="font-size:50px" name="estado_avaria">
                                             <option style="color:green;" value="Sim">Resolvida</option>
-                                            <option style="color:red;" value="N�o" selected="selected">Nao Resolvida</option>
+                                            <option style="color:red;" value="Nao" selected="selected">Nao Resolvida</option>
                                         </select>
                                         <br><brZ
                                         <center><button onclick="fechar_avaria()" type="button" id="but_fechar_avaria" class="fg-button ui-state-default ui-corner-all" style="font-size:40px;">Guardar</button></center>
@@ -432,7 +432,7 @@ if(isset($_POST['local']))
 	/*-----------------------------------------------------------------------------                 GRAVAR DADOS               -------------------------------------------*/
 	} else {
 		mysql_connect($DB_HOST,$DB_USER,$DB_PASS);
-		mysql_select_db($DB_TABLE) or die ('Erro de liga��o � base de dados!');	
+		mysql_select_db($DB_TABLE) or die ('Erro de ligacao a base de dados!');	
 		/*query para registar as horas*/
 		if($viat!=""){
                                                                     //obter precos hora
