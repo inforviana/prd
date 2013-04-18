@@ -1,7 +1,9 @@
 <?php
-if(isset($_POST['local']))
+
+//obra esta definida ...
+if(isset($_POST['selectObra']))
 {
-    $local=$_POST['local'];
+    $local=$_POST['selectObra'];
     $data=$_POST['data'];
     $horas=$_POST['horas']; //variaveis globais
     $minutos=$_POST['minutos'];
@@ -20,6 +22,9 @@ if(isset($_POST['local']))
     //verifica viatura de transporte (84 - sem viatura)
     if($viatura_transporte[1]=="") $viatura_transporte[1]=84;
 }
+
+
+	//verifica se e ou nao um trabalho sem viatura
     if(isset($_GET['viatura']))
     {
         $no_viat=0;
@@ -103,7 +108,7 @@ if(isset($_POST['local']))
 						<td colspan=3>
 							<?php
 								/* INICIO DO FORM */
-								echo '<form action="index.php?pagina=horas&viatura='.$viat.'" method="POST" name="horas_viat">'; 
+								echo '<form action="index.php?pagina=horas&viatura='.$viat.'" method="POST" name="horas_viat" id="horas_viat">'; 
 							?>
 							<center>
                                                             <select class="local" name="data">
@@ -143,15 +148,15 @@ if(isset($_POST['local']))
                                                                    ?>
                                                             </select>
                                                             <!--<input class="data" type="text" value="<?php echo date('Y-m-j');?>" id="data" name="data">  DATA -->
-								<select class="local" id="div_local" name="local"> <!-- LOCAL -->
+								<select class="local" id="div_local" name="selectObra"> <!-- LOCAL -->
 								<?php
 									/* LOCALIZACAO DO FUNCIONARIO */ 
-									$r_locais=mysql_query("select * from locais");
+									$r_locais=mysql_query("select * from obras");
 									$n_locais=mysql_num_rows($r_locais);
 									 
 									for($i=0;$i<$n_locais;$i++)
 									{
-										echo '<option value="'.mysql_result($r_locais,$i,0).'">'.mysql_result($r_locais,$i,1).'</option>';
+										echo '<option value="'.mysql_result($r_locais,$i,'id_obra').'">'.mysql_result($r_locais,$i,'descricao_obra').'</option>';
 									}
 								?>
 								</select>
@@ -222,7 +227,7 @@ if(isset($_POST['local']))
                                                                 if($no_viat!=1) 
                                                                         echo '<td ><font class="font_horas2">H/Kms do Veiculo:</font></td>';
                                                                     ?>
-			<td><input class="horasv" style="font-size: 40px;text-align: right" type="text" name="horasv" onclick="this.value=''" value="0"></td>
+			<td><input id="horasv" class="horasv" style="font-size: 40px;text-align: right" type="text" name="horasv" onclick="this.value=''" value="0"></td>
 		</tr>
 		<tr>
 			<?php  
@@ -262,17 +267,71 @@ if(isset($_POST['local']))
 			<td align="center" colspan="2">      <!-- BOTAO DOS ACESSORIOS -->
 				<input type="hidden"  id="id_acess" value=""> <!-- valor do id de acessorio para enviar com o form -->
 				<button type="button" id="but_acess" class="acessorios ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">Acessorio</button>
+				
+				<!--  botao das avarias -->
 				<button type="button" id="but_avarias" class="acessorios ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">Avarias</button>
 			</td>
 			
 			<td align="center" colspan="3">
-				<?php    //BOTAO PARA GRAVAR
+				<?php    
 					if($no_viat==1){
 					echo "<center>";
 					echo '<br><font class="font_horas2">Descricao do servico: </font><br><input style="font-size: 40px;text-align: center" type="text" name="desc" type="text" size="20"></text><br><br>';
 					}
 				?>
-				<input class="but_registo" type="image" src="botao_ok.png">
+				
+				<script>
+					//funcao em JS para comparar os valores dos contadores das viaturas
+					function compararContador(){
+
+						//margem de diferenca em % para os valores
+						var margemComparacao = 0.1;
+
+						//flag para continuar
+						var continuar = 1;
+
+						//obter os quilometros actuais da viatura para comparar
+						var kmsActuais = <?php echo mysql_result($r_kms_actuais,0,0);?>; 
+
+						//kms / horas inseridos pelo funcioario
+						var kmsInseridos = document.getElementById('horasv');
+						var kmsContador = kmsInseridos.value;
+
+						//form
+						var formViat = document.getElementById('horas_viat');
+
+						//valor menor que o actual
+						if(kmsActuais > kmsInseridos.value)
+						{
+							continuar = 0;
+							//janela a confirmar
+							if(confirm('Valor do contador (' + kmsContador + ') menor que o Actual ('+ kmsActuais +')!\nDeseja Continuar?'))
+								continuar = 1;
+						}
+
+						//verifica se o valor e fora do normal
+						if(continuar == 1){
+							continuar = 0;
+								if((kmsInseridos.value/kmsActuais) > (1 + margemComparacao) || (kmsInseridos.value/kmsActuais) < (1 - margemComparacao)){
+										if(confirm("Valor anormal no contador!\nDeseja Continuar?")){
+												continuar = 1;
+											}else{
+												continuar = 0;
+												}
+									}else{
+										continuar = 1;
+									}
+						}
+
+						//submeter o form
+						if(continuar == 1){
+								formViat.submit();
+							}
+					}
+				</script>
+				
+				<!--  BOTAO PARA GRAVAR -->
+				<button id="but_fecharRegisto" type="button" onClick="compararContador()" class="acessorios ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">Concluir Registo</button>
 				<?php
 					if($no_viat==1){echo "</center>";}
 				?>
@@ -280,24 +339,31 @@ if(isset($_POST['local']))
 		</tr>
 	</table>
 	</div>
+	
+	
+		<!--  ********************************************* dialogos em javascript / jquery *********************************************** -->
+	
+				<!-- limpar o transporte -->
                   <script>
                         function limpar_transporte()
                            {
                                document.getElementById('transporte').value='';
                            }
                   </script>
+		
 		<!-- CAIXA DE DIALOGO PARA SELECCIONAR O TRANSPORTE -->
-	<div title="Transporte" id="dlg_transp" class="ui-widget ui-dialog ui-widget-content ui-corner-all">
-		<?
-			echo '
-			<center>
-				<input style="text-align:center;font-size:30px" type="text" id="transporte" name="transporte" ><br><br>
-				<button type="button" id="but_fechar_trans" class="fg-button ui-state-default ui-corner-all" style="font-size:40px">OK</button>
-				<button type="button" id="but_limpar_trans" class="fg-button ui-state-default ui-corner-all" style="font-size:40px" onclick="limpar_transporte()">Limpar</button>
-			</center>
-			';
-		?>
-	</div>
+		<div title="Transporte" id="dlg_transp" class="ui-widget ui-dialog ui-widget-content ui-corner-all">
+			<?
+				echo '
+				<center>
+					<input style="text-align:center;font-size:30px" type="text" id="transporte" name="transporte" ><br><br>
+					<button type="button" id="but_fechar_trans" class="fg-button ui-state-default ui-corner-all" style="font-size:40px">OK</button>
+					<button type="button" id="but_limpar_trans" class="fg-button ui-state-default ui-corner-all" style="font-size:40px" onclick="limpar_transporte()">Limpar</button>
+				</center>
+				';
+			?>
+		</div>
+	
 	
 		<!-- CAIXA DO ACESSORIO -->
 		<div title="Acessorios" id="dlg_acess" class="ui-widget ui-dialog ui-widget-content ui-corner-all">
@@ -335,6 +401,9 @@ if(isset($_POST['local']))
 				</table>
 		</div>
 		
+		
+		
+		
 		<!-- DETALHES DO ACESSORIO -->
 		<div title="Detalhes Acessorio" id="dlg_det_acess" class="ui-widget ui-dialog ui-widget-content ui-corner-all">
 			<table class="tab_det_acess" border=0>
@@ -346,7 +415,7 @@ if(isset($_POST['local']))
 					<td><input style="font-size: 50px; text-align:center;width:300px;" class="inp_acesso" type="text" name="comb_acess" onchange="alterar('hcomb_acess',this.value)" value="0"> L</td>
 				</tr>
 				<tr>
-					<td>Horas Acessorio</td>
+					<td>Horas efetuadas com Acessorio</td>
 					<td><input style="font-size: 50px; text-align:center;width:100px;" class="inp_acesso" type="text" name="horas_acess" onchange="alterar('hhoras_acess',this.value)"> :
                                                                                                 <select style="font-size: 50px; text-align:center;width:100px;" class="inp_acesso" type="text" name="minutos_acess" onchange="alterar('hminutos_acess',this.value)"> 
                                                                                                     <option selected="selected">00</option>
@@ -365,6 +434,8 @@ if(isset($_POST['local']))
 				</tr>
 			</table>
 		</div>
+                
+                
                 
 	<!-- DETALHES DA AVARIA  -->
 	<div title="Avaria" id="dlg_avarias" class="ui-widget ui-dialog ui-widget-content ui-corner-all" style="position:relative">
@@ -410,7 +481,8 @@ if(isset($_POST['local']))
                                             <option style="color:red;" value="Nao" selected="selected">Nao Resolvida</option>
                                         </select>
                                         <br><brZ
-                                        <center><button onclick="fechar_avaria()" type="button" id="but_fechar_avaria" class="fg-button ui-state-default ui-corner-all" style="font-size:40px;">Guardar</button></center>
+                                        <center>
+                                        	<button onclick="fechar_avaria()" type="button" id="but_fechar_avaria" class="fg-button ui-state-default ui-corner-all" style="font-size:40px;">Guardar</button></center>
                                     </div>
                                             <!-- resolvem o problema das divs externas -->
                                             <input type="hidden" id="htipo_avaria" name="htipo_avaria" value="Caixa">
@@ -418,7 +490,7 @@ if(isset($_POST['local']))
                                             <input type="hidden" id="hhoras_avaria" name="hhoras_avaria" value="0">
                                             <input type="hidden" id="hminutos_avaria" name="hminutos_avaria" value="00">
                                             <input type="hidden" id="hestado_avaria" name="hestado_avaria" value="N�o">
-		<input type="hidden" id="hcusto_avaria" name="hcusto_avaria" value="0">
+											<input type="hidden" id="hcusto_avaria" name="hcusto_avaria" value="0">
                                             <!-- hiddens do acessorio -->
                                             <input type="hidden" name="id_acesso" id="id_acesso" value="0">
                                             <input type="hidden" name="hminutos_acess" id="hminutos_acess" value="0">
@@ -428,6 +500,8 @@ if(isset($_POST['local']))
 	</form>
 	</center>
 
+	
+	
 	<?php
 	/*-----------------------------------------------------------------------------                 GRAVAR DADOS               -------------------------------------------*/
 	} else {
@@ -437,20 +511,47 @@ if(isset($_POST['local']))
 		if($viat!=""){
                                                                     //obter precos hora
                                                                     $preco_hora_funcionario=mysql_query("select preco_hora_normal, preco_hora_extra, preco_sabado from funcionario where id_funcionario=".$_COOKIE['id_funcionario']);
-                                                                    $preco_viatura=mysql_query("select preco_hora from viaturas where id_viatura=".$viat);
-			/*REGISTAR HORAS*/$q_horas="insert into mov_viatura (id_viatura,id_funcionario,horas_viatura,data,desc_movviatura,transporte,id_viatura_transporte,local,id_acessorio,horas_trab_acessorio,preco_hora_normal,preco_hora_extra,preco_hora_sabado,preco_viatura) values (".$viat.",".$_COOKIE['id_funcionario'].",".(($horas*60)+$minutos).",'".$data." ".date('H:i:s')."','".$desc."',".(($horas_transporte*60)+$minutos_transporte).",".$viatura_transporte[1].",".$local.",".$_POST['id_acesso'].",".((($_POST['hhoras_acess'])*60)+($_POST['hminutos_acess'])).",".mysql_result($preco_hora_funcionario,0,0).",".  mysql_result($preco_hora_funcionario, 0,1).",'".  mysql_result($preco_hora_funcionario, 0,2)."','".  mysql_result($preco_viatura, 0,0)."')";
-			/*REGISTAR COMBUSTIVEL*/$q_abast="insert into mov_combustivel (id_funcionario,id_viatura,id_combustivel,data,tipo_movimento,valor_movimento,kms_viatura) values (".$_COOKIE['id_funcionario'].",".$viat.",'0','".$data." ".date('H:i:s')."','S',".$litros.",".$kms.")";	
-                                                      /*REGISTAR AVARIAS */ $q_nova_avaria="INSERT INTO mov_avarias (id_viatura,id_funcionario,data,preco,categoria,desc_avaria,horas,estado) VALUES (".$viat.",".$_COOKIE['id_funcionario'].",'".$data." ".date('H:i:s')."','".$_POST['hcusto_avaria']."','".$_POST['htipo_avaria']."','".$_POST['hdesc_avaria']."',".(($_POST['hhoras_avaria']*60)+($_POST['hminutos_avaria'])).",'".$_POST['hestado_avaria']."')";
+                                                                    
+                                                                    
+                                                                    //preco da obra
+                                                                    $precoObra = mysql_query("select preco_obra from obras_precos where id_viatura = ".$viat."  and id_obra = ".$_POST['selectObra']);
+																	$nPrecoObra = mysql_num_rows($precoObra);
+																	
+																	//ultima contagem do combustivel
+																	$ultimaContagem = mysql_query("select max(kms_viatura) from mov_combustivel where valor_movimento > 0 and id_viatura=".$viat);
+																	
+																	//se existir preco definido para o obra utiliza-o senao utiliza o preco base
+																	if($nPrecoObra > 0)
+																	{
+																		$preco_viatura = mysql_result($precoObra,0,'preco_obra');
+																	}else{
+																		$rPrecoViatura = mysql_query("select preco_hora from viaturas where id_viatura=".$viat);
+																		$preco_viatura = mysql_result($rPrecoViatura, 0,0);	
+																	}
+
+
+                                                                    
+			/*REGISTAR HORAS*/
+			$q_horas="insert into mov_viatura 
+					(id_viatura,id_funcionario,horas_viatura,data,desc_movviatura,transporte,id_viatura_transporte,local,id_acessorio,horas_trab_acessorio,preco_hora_normal,preco_hora_extra,preco_hora_sabado,preco_viatura,id_obra) 
+					values 
+						(".$viat.",".$_COOKIE['id_funcionario'].",".(($horas*60)+$minutos).",'".$data." ".date('H:i:s')."','".$desc."',".(($horas_transporte*60)+$minutos_transporte).",".$viatura_transporte[1].",".$local.",".$_POST['id_acesso'].",".((($_POST['hhoras_acess'])*60)+($_POST['hminutos_acess'])).",".mysql_result($preco_hora_funcionario,0,0).",".  mysql_result($preco_hora_funcionario, 0,1).",'".  mysql_result($preco_hora_funcionario, 0,2)."','".$preco_viatura."',".$_POST['selectObra'].")";
+			
+			/*REGISTAR COMBUSTIVEL*/
+			$q_abast="insert into mov_combustivel (id_funcionario,id_viatura,id_combustivel,data,tipo_movimento,valor_movimento,kms_viatura) values (".$_COOKIE['id_funcionario'].",".$viat.",'0','".$data." ".date('H:i:s')."','S',".$litros.",".$kms.")";
+				
+            /*REGISTAR AVARIAS */ 
+			$q_nova_avaria="INSERT INTO mov_avarias (id_viatura,id_funcionario,data,preco,categoria,desc_avaria,horas,estado) VALUES (".$viat.",".$_COOKIE['id_funcionario'].",'".$data." ".date('H:i:s')."','".$_POST['hcusto_avaria']."','".$_POST['htipo_avaria']."','".$_POST['hdesc_avaria']."',".(($_POST['hhoras_avaria']*60)+($_POST['hminutos_avaria'])).",'".$_POST['hestado_avaria']."')";
 
                                                                  if(($_POST['hhoras_avaria']+$_POST['hminutos_avaria'])>0)
                                                                      if(mysql_query($q_nova_avaria)){}else{ echo "<font style=\"color:red\">Erro ao guardar avaria!</font>";};
 			if(!mysql_query($q_horas)) { //insere o movimento das horas
 				echo $no_viat;
 				echo $q_horas."<br>".$q_abast; //teste bd
-				echo "<br><br><font style=\"color:red\">Erro de acesso � base de dados!</font>"; //em caso de erro ao inserir na bd
+				echo "<br><br><font style=\"color:red\">Erro de acesso a base de dados!</font>"; //em caso de erro ao inserir na bd
 			}else{
 				mysql_query($q_abast); //insere o movimento do combustivel
-                                                                      //ecra das avarias DEPRECATED
+                //ecra das avarias DEPRECATED
 				/*if($avarias=="C/Avarias"){
 					require("avarias.php");//avarias
 				}else{*/

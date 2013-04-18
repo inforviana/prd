@@ -24,28 +24,28 @@
 				if(isset($pagina)) { //verifica se estamos na pagina inicial ou não :)
 					switch($pagina){
 						case "combustivel": //seleccionar viatura para bastecer
-                                                                                                                                require("sel_viatura.php");
-                                                                                                                                break;
+                            require("sel_viatura.php");
+                            break;
 						case "abastecer": // abastecer combustivel
-                                                                                                                                require("combustivel.php");
-                                                                                                                                break;
+                            require("combustivel.php");
+                            break;
 						case "registo": //REGISTO DIARIO
-                                                                                                                                require("sel_viatura.php");
-                                                                                                                                break;
+                            require("sel_viatura.php");
+                            break;
 						case "horas": //REGISTO DE HORAS
-                                                                                                                                require("horas.php");
-                                                                                                                                break;
+                            require("horas.php");
+                            break;
 						case "avarias": //AVARIAS
-						                    require("avarias.php");
-                                                                                                                                break;
+						   	require("avarias.php");
+                           	break;
 						case "oficina": //oficina
-                                                                                                                                break; 
+                           	break; 
 						case "opcoes": //opções do funcionario
 							require("opcoes.php");
-						break;
+						    break;
 						case "perfil":
 							require("perfil.php");
-						break;
+							break;
 					}
 				} else {
 					//alarmes e motd

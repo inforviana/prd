@@ -121,6 +121,7 @@ function categoria_veiculo($id_categoria) //devlolve a categoria do veiculo
                                     //fechar dialogo das avarias
                                     function fechar_avaria()
                                     {
+                                        //fechar o dialogo das avarias
                                         $("#dlg_avarias").dialog('close');
                                     }
 	
@@ -207,17 +208,17 @@ function categoria_veiculo($id_categoria) //devlolve a categoria do veiculo
 				autoOpen:false,
 				resizable: false,
 				modal: true,
-				width: 600,
-				height: 400 
+				width: 650,
+				height: 480 
 			});
 			
-                                                        $("#dlg_avarias").dialog({
-                                                                        autoOpen: false,
-                                                                        resizable: false,
-                                                                        modal: true,
-                                                                        width:600,
-                                                                        height:470
-                                                        });
+            $("#dlg_avarias").dialog({
+                autoOpen: false,
+                resizable: false,
+                modal: true,
+                width:600,
+                height:470
+            });
 			
 			
 			/*$("#p_viatura").autocomplete({ //autocomplete para as combo boxes em JS
@@ -237,7 +238,7 @@ function categoria_veiculo($id_categoria) //devlolve a categoria do veiculo
 			});
 			
 					//estado dos botoes
-			$("#but_registodiario, #but_avaria, #but_acess, #but_oficina, #but_defs, #but_transp, #but_fechar_trans, #but_det_acess, #but_avarias, #but_fechar_avaria, #but_limpar_trans").hover(
+			$("#but_fecharRegisto, #but_registodiario, #but_avaria, #but_acess, #but_oficina, #but_defs, #but_transp, #but_fechar_trans, #but_det_acess, #but_avarias, #but_fechar_avaria, #but_limpar_trans").hover(
 				function() {$(this).addClass("ui-state-hover");},
 				function() {$(this).removeClass("ui-state-hover");}
 			);

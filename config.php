@@ -2,7 +2,7 @@
 	//FICHEIRO DE CONFIGURA��O PRD
 	$DB_HTTP_SERVER="localhost";
 	$DB_HOST="localhost";
-	$DB_TABLE="worktruck_original";
+	$DB_TABLE="worktruck";
 	$DB_USER="root";
 	$DB_PASS="plasma2010";
 	
