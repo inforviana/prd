@@ -34,23 +34,23 @@ if(isset($_POST['selectObra']))
 		
 
 	if(!isset($horas)){ //verifica se ja tem os dados para abastecimento ou nao
-	mysql_connect($DB_HOST,$DB_USER,$DB_PASS);
-	mysql_select_db($DB_TABLE) or die ('Erro de ligacao a base de dados!');
-	//obter kms actuais da viatura
-	$q_kms_actuais="select max(kms_viatura) from mov_combustivel where id_viatura=".$viat;
-	$r_kms_actuais=mysql_query($q_kms_actuais);
-	//pesquisar todas as viaturas para a popup do transporte, carrega para um array em JS
-	$q_popup_viatura="select * from viatura";
-	$r_popup_viatura=mysql_query($q_popup_viatura);
-	/* SCRIPT DO POPUP
-	echo "<script type='text/javascript'>\n";
-	echo "var viaturas = new Array();\n";
-	while ($row=mysql_fetch_array($r_popup_viatura)){
-		echo "viaturas[viaturas.length]={id:'".$row['id_viatura']."',marca:'".$row['desc_viatura']."'}";
-	}
-	echo "</script>";
-	*/
-	//detalhes da viatura
+		mysql_connect($DB_HOST,$DB_USER,$DB_PASS);
+		mysql_select_db($DB_TABLE) or die ('Erro de ligacao a base de dados!');
+		//obter kms actuais da viatura
+		$q_kms_actuais="select max(kms_viatura) from mov_combustivel where id_viatura=".$viat;
+		$r_kms_actuais=mysql_query($q_kms_actuais);
+		//pesquisar todas as viaturas para a popup do transporte, carrega para um array em JS
+		$q_popup_viatura="select * from viatura";
+		$r_popup_viatura=mysql_query($q_popup_viatura);
+		/* SCRIPT DO POPUP
+		echo "<script type='text/javascript'>\n";
+		echo "var viaturas = new Array();\n";
+		while ($row=mysql_fetch_array($r_popup_viatura)){
+			echo "viaturas[viaturas.length]={id:'".$row['id_viatura']."',marca:'".$row['desc_viatura']."'}";
+		}
+		echo "</script>";
+		*/
+		//detalhes da viatura
 	$q_abviat="select * from viaturas where id_viatura=".$viat;
 	$r_abviat=mysql_query($q_abviat);
 	?>
@@ -280,15 +280,13 @@ if(isset($_POST['selectObra']))
 					}
 				?>
 				
+				<!-- funcoes em para verificar valores e submeter o form em JS -->
 				<script>
 					//funcao em JS para comparar os valores dos contadores das viaturas
 					function compararContador(){
 
 						//margem de diferenca em % para os valores
 						var margemComparacao = 0.1;
-
-						//flag para continuar
-						var continuar = 1;
 
 						//obter os quilometros actuais da viatura para comparar
 						var kmsActuais = <?php echo mysql_result($r_kms_actuais,0,0);?>; 
@@ -297,38 +295,25 @@ if(isset($_POST['selectObra']))
 						var kmsInseridos = document.getElementById('horasv');
 						var kmsContador = kmsInseridos.value;
 
-						//form
-						var formViat = document.getElementById('horas_viat');
-
-						//valor menor que o actual
-						if(kmsActuais > kmsInseridos.value)
-						{
-							continuar = 0;
-							//janela a confirmar
-							if(confirm('Valor do contador (' + kmsContador + ') menor que o Actual ('+ kmsActuais +')!\nDeseja Continuar?'))
-								continuar = 1;
-						}
-
 						//verifica se o valor e fora do normal
-						if(continuar == 1){
-							continuar = 0;
-								if((kmsInseridos.value/kmsActuais) > (1 + margemComparacao) || (kmsInseridos.value/kmsActuais) < (1 - margemComparacao)){
-										if(confirm("Valor anormal no contador!\nDeseja Continuar?")){
-												continuar = 1;
-											}else{
-												continuar = 0;
-												}
-									}else{
-										continuar = 1;
-									}
+						if((kmsInseridos.value/kmsActuais) > (1 + margemComparacao) || (kmsInseridos.value/kmsActuais) < (1 - margemComparacao)){
+								$("#dlg_aviso").dialog("open");		
 						}
-
-						//submeter o form
-						if(continuar == 1){
-								formViat.submit();
-							}
 					}
+
+				//funcao para submeter o form
+				function submeterForm()
+				{
+					var formViat = document.getElementById('horas_viat');
+					formViat.submit();
+				}
+
+				function fecharAviso()
+				{
+					$("#dlg_aviso").dialog("close");
+				}
 				</script>
+				
 				
 				<!--  BOTAO PARA GRAVAR -->
 				<button id="but_fecharRegisto" type="button" onClick="compararContador()" class="acessorios ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">Concluir Registo</button>
@@ -350,6 +335,22 @@ if(isset($_POST['selectObra']))
                                document.getElementById('transporte').value='';
                            }
                   </script>
+
+                  
+                  
+                  
+       <!--  DIALOGO PARA OS ERROS DE CONTADOR -->
+       <div title="Aviso" id="dlg_aviso" class="ui-widget ui-dialog ui-widget-content ui-corner-all">
+       		
+       		<center><img src="./img/icon_warning.png"></center>
+       		<center>
+       		<h3>Valor de Contador Anormal!</h3>       		
+       			<button class="ui-widget ui-button botoes_aviso" onClick="fecharAviso();">Corrigir</button>
+       			<button class="ui-widget ui-button botoes_aviso" onClick="submeterForm();">Confirmar</button>
+       		</center>
+       </div>
+		
+		
 		
 		<!-- CAIXA DE DIALOGO PARA SELECCIONAR O TRANSPORTE -->
 		<div title="Transporte" id="dlg_transp" class="ui-widget ui-dialog ui-widget-content ui-corner-all">
