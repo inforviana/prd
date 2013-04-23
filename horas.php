@@ -303,8 +303,6 @@ if(isset($_POST['selectObra']))
 						var kmsInseridos = document.getElementById('horasv');
 						var kmsContador = kmsInseridos.value;
 						var diferenca = (kmsInseridos.value - kmsActuais);
-
-						alert(diferenca);
 						
 						//verifica se o valor e fora do normal
 						if((kmsInseridos.value - kmsActuais) > 200){
