@@ -8,9 +8,9 @@
 			$r_func=mysql_query("select nome_funcionario from funcionario where id_funcionario=".$_COOKIE["id_funcionario"]);
 			echo '<a href="./index.php"><img class="img_func" src="./img/semimagem.jpg"></a><br><font class="txt_func">'.mysql_result($r_func,0,0).'</font><br><br>';
 			echo '<button style="font-size:30px;width:220px;height:100px" class="fg-button ui-state-default ui-corner-all" id="but_registodiario">Registo Diario</button><br>';
-			echo '<button style="font-size:30px;width:220px;height:100px" class="fg-button ui-state-default ui-corner-all" id="but_oficina">Outros Servicos</button><br>'; 
-			echo '<button style="font-size:30px;width:220px;height:100px" class="fg-button ui-state-default ui-corner-all" id="but_defs">Oficina</button><br><br>';
-			echo "<a href=\"./index.php?accao=sair\"><img src=\"$IMG_SAIR\" border=0></a>";
+			//echo '<button style="font-size:30px;width:220px;height:100px" class="fg-button ui-state-default ui-corner-all" id="but_oficina">Outros Servicos</button><br>'; 
+			//echo '<button style="font-size:30px;width:220px;height:100px" class="fg-button ui-state-default ui-corner-all" id="but_defs">Oficina</button><br><br>';
+			echo "<br><br><a href=\"./index.php?accao=sair\"><img src=\"$IMG_SAIR\" border=0></a>";
 			echo '<br>PRD 2012<br><font style="font-size:12px">Versão '.$VERSAO.'</font>';
 			//echo '<a href="index.php?pagina=oficina"><img  width="200" src="botao_menu_3.png" border=0></a>';
 			//echo '<a href="index.php?pagina=opcoes"><img  width="200" src="botao_menu_4.png" border=0></a>';
