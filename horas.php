@@ -70,7 +70,7 @@ if(isset($_POST['selectObra']))
                                        document.getElementById(inph).value=inpv;
                                      }
                        </script>
-	<table id="hor-minimalist-b" summary="motd"> <!--descri��o da viatura -->
+	<table id="hor-minimalist-b" summary="motd"> <!--descricao da viatura -->
 		<thead>
 			<tr>
 				<th>DIARIA DA VIATURA</th>
@@ -108,7 +108,7 @@ if(isset($_POST['selectObra']))
 						<td colspan=3>
 							<?php
 								/* INICIO DO FORM */
-								echo '<form action="index.php?pagina=horas&viatura='.$viat.'" method="POST" name="horas_viat" id="horas_viat">'; 
+								echo '<form accept-charset="ISO-8859-1" action="index.php?pagina=horas&viatura='.$viat.'" method="POST" name="horas_viat" id="horas_viat">'; 
 							?>
 							<center>
                                                             <select class="local" name="data">
