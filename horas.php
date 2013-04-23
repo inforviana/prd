@@ -282,6 +282,14 @@ if(isset($_POST['selectObra']))
 				
 				<!-- funcoes em para verificar valores e submeter o form em JS -->
 				<script>
+					//funcao para submeter o form
+					function submeterForm()
+					{
+						var formViat = document.getElementById('horas_viat');
+						formViat.submit();
+					}
+
+					
 					//funcao em JS para comparar os valores dos contadores das viaturas
 					function compararContador(){
 
@@ -294,19 +302,19 @@ if(isset($_POST['selectObra']))
 						//kms / horas inseridos pelo funcioario
 						var kmsInseridos = document.getElementById('horasv');
 						var kmsContador = kmsInseridos.value;
+						var diferenca = (kmsInseridos.value - kmsActuais);
 
+						alert(diferenca);
+						
 						//verifica se o valor e fora do normal
-						if((kmsInseridos.value/kmsActuais) > (1 + margemComparacao) || (kmsInseridos.value/kmsActuais) < (1 - margemComparacao)){
+						if((kmsInseridos.value - kmsActuais) > 200){
 								$("#dlg_aviso").dialog("open");		
+						}else{
+							submeterForm();
 						}
 					}
 
-				//funcao para submeter o form
-				function submeterForm()
-				{
-					var formViat = document.getElementById('horas_viat');
-					formViat.submit();
-				}
+				
 
 				//fechar o aviso do contador
 				function fecharAviso()
