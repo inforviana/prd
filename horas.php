@@ -101,7 +101,7 @@ if(isset($_POST['selectObra']))
                                                                         $r_cat=mysql_query($q_cat);
                                                                         echo mysql_result($r_cat,0,0);
                                                                     ?><br>
-							<b>Kms Actuais:</b><?php echo mysql_result($r_kms_actuais,0,0);?>
+							<b>Contador: </b><?php echo mysql_result($r_kms_actuais,0,0);?>
 						</td>
 					</tr>
 					<tr>
