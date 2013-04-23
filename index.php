@@ -73,7 +73,7 @@ function categoria_veiculo($id_categoria) //devlolve a categoria do veiculo
 <html>
 <!DOCTYPE HTML>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859">
+		<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1">
 		<meta http-equiv="X-UA-Compatible" content="IE=9" />
 		<title><?php echo $NOME_APP; ?></title>
 		<link rel="stylesheet" type="text/css" href="stylesheet.css"> 
@@ -184,9 +184,9 @@ function categoria_veiculo($id_categoria) //devlolve a categoria do veiculo
 				$("#dlg_acess").dialog("open");
 			});
                         
-                                                     $("#but_avarias").click(function(){
-                                                                        $("#dlg_avarias").dialog("open");
-                                                     });
+            $("#but_avarias").click(function(){
+                 $("#dlg_avarias").dialog("open");
+            });
 			
 			$("#dlg_transp").dialog({ //dialogo para escolher a viatura de transporte
 				autoOpen: false,
@@ -195,7 +195,8 @@ function categoria_veiculo($id_categoria) //devlolve a categoria do veiculo
 				width: 450,
 				height: 400
 			});
-			
+
+			//janela para seleccionar o acessorio
 			$("#dlg_acess").dialog({
 				autoOpen:false,
 				resizable: false,
@@ -211,7 +212,8 @@ function categoria_veiculo($id_categoria) //devlolve a categoria do veiculo
 				width: 650,
 				height: 480 
 			});
-			
+
+			//janela para preenchimento das avarias
             $("#dlg_avarias").dialog({
                 autoOpen: false,
                 resizable: false,
@@ -220,12 +222,13 @@ function categoria_veiculo($id_categoria) //devlolve a categoria do veiculo
                 height:470
             });
 
+			//janela de aviso do contador
             $("#dlg_aviso").dialog({
 				autoOpen:false,
 				resizable: false,
 				modal: true,
 				width:400,
-				height:320
+				height:360
                 });
 			
 			
@@ -267,7 +270,8 @@ function categoria_veiculo($id_categoria) //devlolve a categoria do veiculo
 			$("#but_transp").click(function(){
 				$("#dlg_transp").dialog("open");
 			});
-			
+
+			//botao para seleccionar o transporte
 			$("#but_fechar_trans").click(function(){
 				document.getElementById("viat_t").value=document.getElementById("transporte").value;
 				

@@ -308,6 +308,7 @@ if(isset($_POST['selectObra']))
 					formViat.submit();
 				}
 
+				//fechar o aviso do contador
 				function fecharAviso()
 				{
 					$("#dlg_aviso").dialog("close");
@@ -343,10 +344,10 @@ if(isset($_POST['selectObra']))
        <div title="Aviso" id="dlg_aviso" class="ui-widget ui-dialog ui-widget-content ui-corner-all">
        		
        		<center><img src="./img/icon_warning.png"></center>
-       		<center>
-       		<h3>Valor de Contador Anormal!</h3>       		
-       			<button class="ui-widget ui-button botoes_aviso" onClick="fecharAviso();">Corrigir</button>
-       			<button class="ui-widget ui-button botoes_aviso" onClick="submeterForm();">Confirmar</button>
+       		<center><h3>Valor de Contador Anormal!</h3>     
+       		<u><i>Viatura errada ou contador novo?</i></u><br><br>  		
+       			<button style="font-size: 24px;" class="ui-widget ui-button botoes_aviso" onClick="fecharAviso();">Corrigir Valor</button>
+       			<button style="font-size: 24px;" class="ui-widget ui-button botoes_aviso" onClick="submeterForm();">Fechar Registo</button>
        		</center>
        </div>
 		
