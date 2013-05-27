@@ -470,7 +470,7 @@ if(isset($_POST['selectObra']))
                                             </tr>
                                             <tr>
                                                 <td>                                        
-                                                    <input onchange="alterar('hhoras_avaria',this.value)" style="font-size:50px; width:100px;text-align:center" type="text" name="horas_avaria">:
+                                                    <input onchange="alterar('hhoras_avaria',this.value)" style="font-size:50px; width:100px;text-align:center" type="text" name="horas_avaria" value="0">:
                                                     <select onchange="alterar('hminutos_avaria',this.value)"style="font-size:50px;"  name="minutos_avaria">
                                                         <option value="0">00</option>
                                                         <option value="15">15</option>
@@ -551,7 +551,8 @@ if(isset($_POST['selectObra']))
             /*REGISTAR AVARIAS */ 
 			$q_nova_avaria="INSERT INTO mov_avarias (id_viatura,id_funcionario,data,preco,categoria,desc_avaria,horas,estado) VALUES (".$viat.",".$_COOKIE['id_funcionario'].",'".$data." ".date('H:i:s')."','".$_POST['hcusto_avaria']."','".$_POST['htipo_avaria']."','".$_POST['hdesc_avaria']."',".(($_POST['hhoras_avaria']*60)+($_POST['hminutos_avaria'])).",'".$_POST['hestado_avaria']."')";
 
-                                                                 if(($_POST['hhoras_avaria']+$_POST['hminutos_avaria'])>0)
+								//verifica se as horas sao 0 ou mais
+                                                                 if(($_POST['hhoras_avaria']+$_POST['hminutos_avaria'])>=0)
                                                                      if(mysql_query($q_nova_avaria)){}else{ echo "<font style=\"color:red\">Erro ao guardar avaria!</font>";};
 			if(!mysql_query($q_horas)) { //insere o movimento das horas
 				echo $no_viat;
