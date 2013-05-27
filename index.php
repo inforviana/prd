@@ -1,11 +1,11 @@
-﻿<?php
+<?php
 require('config.php'); //carregar variaveis globais
-	//ligar ç base de dados
+	//ligar � base de dados
 	if(mysql_connect($DB_HOST,$DB_USER,$DB_PASS))
 	//seleccionar a tabela a utilizar
-	mysql_select_db($DB_TABLE) or die('Erro de ligaçço ç base de dados!');
+	mysql_select_db($DB_TABLE) or die('Erro de liga��o � base de dados!');
 	
-if(isset($_GET['accao'])) $accao=$_GET['accao']; //operaçço a executar
+if(isset($_GET['accao'])) $accao=$_GET['accao']; //opera��o a executar
 if(isset($_POST['pin'])) $pin_l=$_POST['pin']; //pin obtido a partir do form de login
 
 if (isset($accao)) { //logout do funcionario
@@ -26,7 +26,7 @@ if(isset($pin_l)){ //criar cookie
 	
 	
 	$num=mysql_numrows($dados);
-	//fechar o acesso ç base de dados
+	//fechar o acesso � base de dados
 	mysql_close();
 		
 	if ($num>0) { //preencher variaveis nas cookies
@@ -88,9 +88,9 @@ function categoria_veiculo($id_categoria) //devlolve a categoria do veiculo
 		<!-- script para trocar de pagina -->
                       <script type="text/javascript">
 		function abrir_url(url){
-			if(url=='Sem Serviço'){
+			if(url=='Sem Servi�o'){
 					window.location='index.php?pagina=horas&serv='+url;
-				}else if(url=='Serviço Externo'){
+				}else if(url=='Servi�o Externo'){
 					window.location='index.php?pagina=horas&serv='+url;
 				}else if(url=='Ajudante'){
 					window.location='index.php?pagina=horas&serv='+url;
