@@ -305,7 +305,7 @@ if(isset($_POST['selectObra']))
 						var diferenca = (kmsInseridos.value - kmsActuais);
 						
 						//verifica se o valor e fora do normal
-						if((kmsInseridos.value - kmsActuais) > 200){
+						if((kmsInseridos.value - kmsActuais) > 700){
 								$("#dlg_aviso").dialog("open");		
 						}else{
 							submeterForm();
