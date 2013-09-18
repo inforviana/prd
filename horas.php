@@ -154,7 +154,7 @@ if(isset($_POST['selectObra']))
 									$r_locais=mysql_query("select * from obras");
 									$n_locais=mysql_num_rows($r_locais);
 
-									echo '<option selected="selected" value=""></option>';
+									echo '<option selected="selected" value=""> </option>';
 									 
 									for($i=0;$i<$n_locais;$i++)
 									{
