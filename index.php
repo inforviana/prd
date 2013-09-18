@@ -237,7 +237,7 @@ function categoria_veiculo($id_categoria) //devlolve a categoria do veiculo
             	resizable: false,
             	modal: true,
             	width:400,
-            	height:360
+            	height:320
             });
 
 			
