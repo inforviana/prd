@@ -298,9 +298,9 @@ if(isset($_POST['selectObra']))
 
 						if(txtLocal.length > 1)
 						{
-							$("$dlg_sem_local").dialog("open");
 							return 1;
 						}else{
+							$("#dlg_sem_local").dialog("open");
 							return 0;
 						}
 
