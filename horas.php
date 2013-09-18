@@ -541,9 +541,9 @@ if(isset($_POST['selectObra']))
                                                                     
 			/*REGISTAR HORAS*/
 			$q_horas="insert into mov_viatura 
-					(id_viatura,id_funcionario,horas_viatura,data,desc_movviatura,transporte,id_viatura_transporte,local,id_acessorio,horas_trab_acessorio,preco_hora_normal,preco_hora_extra,preco_hora_sabado,preco_viatura,id_obra) 
+					(id_viatura,id_funcionario,horas_viatura,data,desc_movviatura,transporte,id_viatura_transporte,local,id_acessorio,horas_trab_acessorio,preco_hora_normal,preco_hora_extra,preco_hora_sabado,preco_viatura,id_obra, contador) 
 					values 
-						(".$viat.",".$_COOKIE['id_funcionario'].",".(($horas*60)+$minutos).",'".$data." ".date('H:i:s')."','".$desc."',".(($horas_transporte*60)+$minutos_transporte).",".$viatura_transporte[1].",".$local.",".$_POST['id_acesso'].",".((($_POST['hhoras_acess'])*60)+($_POST['hminutos_acess'])).",".mysql_result($preco_hora_funcionario,0,0).",".  mysql_result($preco_hora_funcionario, 0,1).",'".  mysql_result($preco_hora_funcionario, 0,2)."','".$preco_viatura."',".$_POST['selectObra'].")";
+						(".$viat.",".$_COOKIE['id_funcionario'].",".(($horas*60)+$minutos).",'".$data." ".date('H:i:s')."','".$desc."',".(($horas_transporte*60)+$minutos_transporte).",".$viatura_transporte[1].",".$local.",".$_POST['id_acesso'].",".((($_POST['hhoras_acess'])*60)+($_POST['hminutos_acess'])).",".mysql_result($preco_hora_funcionario,0,0).",".  mysql_result($preco_hora_funcionario, 0,1).",'".  mysql_result($preco_hora_funcionario, 0,2)."','".$preco_viatura."',".$_POST['selectObra'].",".$kms.")";
 			
 			/*REGISTAR COMBUSTIVEL*/
 			$q_abast="insert into mov_combustivel (id_funcionario,id_viatura,id_combustivel,data,tipo_movimento,valor_movimento,kms_viatura) values (".$_COOKIE['id_funcionario'].",".$viat.",'0','".$data." ".date('H:i:s')."','S',".$litros.",".$kms.")";
