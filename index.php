@@ -230,6 +230,16 @@ function categoria_veiculo($id_categoria) //devlolve a categoria do veiculo
 				width:400,
 				height:360
                 });
+
+            //janela de aviso de falta de local
+            $("#dlg_sem_local").dialog({
+            	autoOpen:false,
+            	resizable: false,
+            	modal: true,
+            	width:400,
+            	height:360
+            });
+
 			
 			
 			/*$("#p_viatura").autocomplete({ //autocomplete para as combo boxes em JS

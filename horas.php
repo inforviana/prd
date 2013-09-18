@@ -289,6 +289,21 @@ if(isset($_POST['selectObra']))
 						formViat.submit();
 					}
 
+					function verificarLocal()
+					{
+						var localSeleccionado = document.getElementById('div_local');
+						var txtLocal = localSeleccionado.value;
+
+						if(txtLocal.length > 1)
+						{
+							$("$dlg_sem_local").dialog("open");
+							return 1;
+						}else{
+							return 0;
+						}
+
+					}
+
 					
 					//funcao em JS para comparar os valores dos contadores das viaturas
 					function compararContador(){
@@ -304,11 +319,12 @@ if(isset($_POST['selectObra']))
 						var kmsContador = kmsInseridos.value;
 						var diferenca = (kmsInseridos.value - kmsActuais);
 						
-						//verifica se o valor e fora do normal
+						//verifica se o valor esta fora do normal
 						if((kmsInseridos.value - kmsActuais) > 700){
 								$("#dlg_aviso").dialog("open");		
 						}else{
-							submeterForm();
+							if(verificarLocal()==1)
+								submeterForm();
 						}
 					}
 
@@ -318,6 +334,11 @@ if(isset($_POST['selectObra']))
 				function fecharAviso()
 				{
 					$("#dlg_aviso").dialog("close");
+				}
+
+				function fecharAvisoLocal()
+				{
+					$("#dlg_sem_local").dialog("close");
 				}
 				</script>
 				
@@ -343,6 +364,12 @@ if(isset($_POST['selectObra']))
                            }
                   </script>
 
+       <!-- DIALOGO PARA O AVISO DE SEM LOCAL -->
+       <div title="Aviso" id="dlg_sem_local" class="ui-widget ui-dialog ui-widget-content ui-corner-all">
+       		<center><img src="./img/icon_warning.png"></center>
+       		<center><h3>Falta Local de Trabalho!</h3>  
+       		<button style="font-size: 24px;" class="ui-widget ui-button botoes_aviso" onClick="fecharAvisoLocal();">OK</button>
+       </div>
                   
                   
                   
