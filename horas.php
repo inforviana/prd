@@ -405,7 +405,7 @@ if(isset($_POST['selectObra']))
 			<table>
 			
 				<?php
-					$r_acess=mysql_query("SELECT acessorios_viatura.id_acessorio as id_acessorio, viaturas.desc_viatura as descricao FROM acessorios_viatura LEFT JOIN viaturas ON viaturas.id_viatura = acessorios_viatura.id_acessorio WHERE acessorios_viatura.id_viatura=".$viat." LIMIT 20");
+					$r_acess=mysql_query("SELECT acessorios_viatura.id_acessorio as id_acessorio, viaturas.desc_viatura as descricao FROM acessorios_viatura LEFT JOIN viaturas ON viaturas.id_viatura = acessorios_viatura.id_acessorio WHERE acessorios_viatura.id_viatura=".$viat." AND viaturas.activo = 1 LIMIT 20");
 					$n_acess=mysql_num_rows($r_acess);
 					
 					$max_c=5;//largura das colunas
