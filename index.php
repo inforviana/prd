@@ -20,7 +20,7 @@ if(isset($pin_l)){ //criar cookie
 	//query sql para verficiar o utilizador a partir do pin
 	$arr_login = str_split($pin_l,2);
 	if($arr_login[0]==$arr_login[1]){
-	$query_login="select * from funcionario where pin_funcionario=".$arr_login[0];
+	$query_login="select * from funcionario where activo=1 and pin_funcionario=".$arr_login[0];
 	//executar a query
 	$dados=mysql_query($query_login);
 	
