@@ -296,12 +296,11 @@ if(isset($_POST['selectObra']))
 						var localSeleccionado = document.getElementById('div_local');
 						var txtLocal = localSeleccionado.value;
 
-						if(txtLocal.length > 1)
+						if(txtLocal > 0)
 						{
-							return 1;
+							submeterForm();
 						}else{
 							$("#dlg_sem_local").dialog("open");
-							return 0;
 						}
 
 					}
@@ -325,8 +324,7 @@ if(isset($_POST['selectObra']))
 						if((kmsInseridos.value - kmsActuais) > 700){
 								$("#dlg_aviso").dialog("open");		
 						}else{
-							if(verificarLocal()==1)
-								submeterForm();
+							verificarLocal();
 						}
 					}
 
@@ -382,7 +380,7 @@ if(isset($_POST['selectObra']))
        		<center><h3>Valor de Contador Anormal!</h3>     
        		<u><i>Viatura errada ou contador novo?</i></u><br><br>  		
        			<button style="font-size: 24px;" class="ui-widget ui-button botoes_aviso" onClick="fecharAviso();">Corrigir Valor</button>
-       			<button style="font-size: 24px;" class="ui-widget ui-button botoes_aviso" onClick="submeterForm();">Fechar Registo</button>
+       			<button style="font-size: 24px;" class="ui-widget ui-button botoes_aviso" onClick="verificarLocal();">Fechar Registo</button>
        		</center>
        </div>
 		
