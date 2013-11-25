@@ -313,7 +313,16 @@ if(isset($_POST['selectObra']))
 						var margemComparacao = 0.1;
 
 						//obter os quilometros actuais da viatura para comparar
-						var kmsActuais = <?php echo mysql_result($r_kms_actuais,0,0);?>; 
+						var kmsActuais = <?php 
+												$ka = mysql_result($r_kms_actuais,0,0);
+												
+												if($ka > 0)
+												{
+													echo $ka;
+												}else{
+												 	echo '0';
+												}
+											?> 
 
 						//kms / horas inseridos pelo funcioario
 						var kmsInseridos = document.getElementById('horasv');
